@@ -963,24 +963,22 @@ PORTAL.view = function() {
 			});
 			node.exit().remove();
 					
-			var nodeEnter = node.enter().insert("svg:g").attr("class", "node nodegroup");
+			//var nodeEnter = node.enter().insert("svg:g").attr("class", "node nodegroup nodetable");
+			var nodeEnter = node.enter().insert("svg:g").attr("class", "node nodegroup nodetable");
 			nodeEnter.each(function(d, i) {
-				console.log("++++++++++++++++++++++++++++++++++++++++");
-				console.log(typeof d);
 				var node = d3.select(this);
-				console.log(node);
 				node.attr("id", d.id);
 				var l = d._def.label;
 				l = ( typeof l === "function" ? l.call(d) : l) || "";
 				d.w = Math.max(node_width, calculateTextWidth(l) + (d._def.inputs > 0 ? 7 : 0));
-				d.h = Math.max(node_height, (d.outputs || 0) * 15);					
+				d.h = Math.max(node_height, (d.outputs || 0) * 15);		
+				data = 'tab';
+				columns = ["ksjdvkdv", "ijhvjfkvn", "jhbvnfvn"];
 				
-
-				var mainRect = node.append("rect").attr("class", "node").classed("node_unknown", function(d) {
-				 return d.type == "unknown";
-				 }).attr("rx", 6).attr("ry", 6).attr('fill', '#fff')
-				 // .attr("fill",function(d) { return d._def.color;})
-				 .on("mouseup", nodeMouseUp).on("mousedown", nodeMouseDown).on("touchstart", function(d) {
+				var table = node.append("table")
+            .style("border-collapse", "collapse")
+            .style("border",  "5px solid #4CAF50")
+             .on("mouseup", nodeMouseUp).on("mousedown", nodeMouseDown).on("touchstart", function(d) {
 				 var obj = d3.select(this);				
 				 var touch0 = d3.event.touches.item(0);
 				 var pos = [touch0.pageX, touch0.pageY];
@@ -1006,19 +1004,38 @@ PORTAL.view = function() {
 				 }).on("mouseout", function(d) {
 				 var node = d3.select(this);
 				 node.classed("node_hovered", false);
-				 });				 
-				
-				
-                //var text = node.append('ul').attr('class', 'node_label').attr('x', 38).attr('dy', '.35em').attr('text-anchor', 'start');
-			    var text = node.append('svg:text').attr('class', 'node_label').attr('x', 38).attr('dy', '.35em').attr('text-anchor', 'start');
-					if (d._def.align) {
-						text.attr('class', 'node_label node_label_' + d._def.align);
-						text.attr('text-anchor', 'end');
-					}					
-				   	
-               
-				if (d._def.inputs > 0) {
-					text.attr("x", 38);
+				 });	
+        var thead = table.append("thead");
+        var tbody = table.append("tbody");
+
+    // append the header row
+    thead.append("tr")
+        .selectAll("th")
+        .data(columns)
+        .enter()
+        .append("th")
+            .text(function(column) { return column; });
+
+    // create a row for each object in the data
+    var rows = tbody.selectAll("tr")
+        .data(data)
+        .enter()
+        .append("tr");
+
+    // create a cell in each row for each column
+    var cells = rows.selectAll("td")
+        .data(function(row) {
+            return columns.map(function(column) {
+                return {column: column, value: row[column]};
+            });
+        })
+        .enter()
+        .append("td")
+        .attr("style", "font-family: Courier")
+            .html(function(d) { return d.value; });
+            
+            if (d._def.inputs > 0) {
+					//text.attr("x", 38);
 					node.append("rect").attr("class", "port port_input").attr("rx", 3).attr("ry", 3).attr("x", -5).attr("width", 10).attr("height", 10).on("mousedown", function(d) {
 						portMouseDown(d, 1, 0);
 					}).on("touchstart", function(d) {
@@ -1035,13 +1052,16 @@ PORTAL.view = function() {
 						port.classed("port_hovered", false);
 					})
 				}
-
-				//node.append("path").attr("class","node_error").attr("d","M 3,-3 l 10,0 l -5,-8 z");
-				//   node.append("image").attr("class","node_error hidden").attr("xlink:href","icons/node-error.png").attr("x",0).attr("y",-6).attr("width",10).attr("height",9);
-				// node.append("image").attr("class","node_changed hidden").attr("xlink:href","icons/node-changed.png").attr("x",12).attr("y",-6).attr("width",10).attr("height",10);
+				
 			});
 			
-			node.each(function(d, i) {
+			
+			
+			console.log("+++++++++++++++++++++++++++++++++++++++++++++++++");
+			console.log(node);
+		}	
+		
+		node.each(function(d, i) {
 				if (d.dirty) {
 					//if (d.x < -50) deleteSelection();  // Delete nodes if dragged back to palette
 					if (d.resize) {
@@ -1064,274 +1084,12 @@ PORTAL.view = function() {
 					}).classed("node_highlighted", function(d) {
 						return d.highlighted;
 					});
-
-					thisNode.selectAll(".node_icon_group_right").attr('transform', function(d) {
-						return "translate(" + (d.w - 30) + ",0)"
-					});
-					thisNode.selectAll(".node_label_right").attr('x', function(d) {
-						return d.w - 38
-					});
-
-					var numOutputs = d.outputs;
-					var y = (d.h / 2) - ((numOutputs - 1) / 2) * 13;
-					d.ports = d.ports || d3.range(numOutputs);
-					d._ports = thisNode.selectAll(".port_output").data(d.ports);
-					d._ports.enter().append("rect").attr("class", "port port_output").attr("rx", 3).attr("ry", 3).attr("width", 10).attr("height", 10).on("mousedown", function() {
-						var node = d;
-						return function(d, i) {
-							portMouseDown(node, 0, i);
-						}
-					}()).on("touchstart", function() {
-						var node = d;
-						return function(d, i) {
-							portMouseDown(node, 0, i);
-						}
-					}()).on("mouseup", function() {
-						var node = d;
-						return function(d, i) {
-							portMouseUp(node, 0, i);
-						}
-					}()).on("touchend", function() {
-						var node = d;
-						return function(d, i) {
-							portMouseUp(node, 0, i);
-						}
-					}()).on("mouseover", function(d, i) {
-						var port = d3.select(this);
-						port.classed("port_hovered", (mouse_mode != PORTAL.state.JOINING || mousedown_port_type != 0 ));
-					}).on("mouseout", function(d, i) {
-						var port = d3.select(this);
-						port.classed("port_hovered", false);
-					});
-					d._ports.exit().remove();
-					if (d._ports) {
-						var numOutputs = d.outputs || 1;
-						var y = (d.h / 2) - ((numOutputs - 1) / 2) * 13;
-						var x = d.w - 5;
-						d._ports.each(function(d, i) {
-							var port = d3.select(this);
-							port.attr("y", (y + 13 * i) - 5).attr("x", x);
-						});
-					}				
-					
-    					    
-    			    //thisNode.selectAll("ul.node_label")
-                     // .data([4, 8, 15, 16, 23, 42])
-                     // .enter()
-                     // .append("li")
-                     // .text(function(d, i) { return d; });
-					
-					thisNode.selectAll('text.node_label').text(function(d, i) {
-						if (d._def.label) {
-							if ( typeof d._def.label == "function") {
-								return d._def.label.call(d);
-							} else {
-								return d._def.label;
-							}
-						}
-						return "";
-					}).attr('y', function(d) {
-						return (d.h / 2) - 1;
-					}).attr('class', function(d) {
-						return 'node_label' + (d._def.align ? ' node_label_' + d._def.align : '') + (d._def.label ? ' ' + ( typeof d._def.labelStyle == "function" ? d._def.labelStyle.call(d) : d._def.labelStyle) : '');
-					});
-					
-					if (d._def.schemas.length > 1) {
-						for (var s in d._def.schemas) {
-							thisNode.selectAll('text.node_label').text(function(d, i) {
-						    	return s
-							})	
-						}	
-					}
-					
-					
-					thisNode.selectAll(".node_tools").attr("x", function(d) {
-						return d.w - 35;
-					}).attr("y", function(d) {
-						return d.h - 20;
-					});
-
-					thisNode.selectAll(".node_changed").attr("x", function(d) {
-						return d.w - 10
-					}).classed("hidden", function(d) {
-						return !d.changed;
-					});
-
-					thisNode.selectAll(".node_error").attr("x", function(d) {
-						return d.w - 10 - (d.changed ? 13 : 0)
-					}).classed("hidden", function(d) {
-						return d.valid;
-					});
-
-					thisNode.selectAll(".port_input").each(function(d, i) {
-						var port = d3.select(this);
-						port.attr("y", function(d) {
-							return (d.h / 2) - 5;
-						})
-					});
-
-					thisNode.selectAll(".node_icon").attr("y", function(d) {
-						return (d.h - d3.select(this).attr("height")) / 2;
-					});
-					thisNode.selectAll(".node_icon_shade").attr("height", function(d) {
-						return d.h;
-					});
-					thisNode.selectAll(".node_icon_shade_border").attr("d", function(d) {
-						return "M " + (("right" == d._def.align) ? 0 : 30) + " 1 l 0 " + (d.h - 2)
-					});
-
-					thisNode.selectAll('.node_right_button').attr("transform", function(d) {
-						var x = d.w - 6;
-						if (d._def.button.toggle && !d[d._def.button.toggle]) {
-							x = x - 8;
-						}
-						return "translate(" + x + ",2)";
-					});
-					thisNode.selectAll('.node_right_button rect').attr("fill-opacity", function(d) {
-						if (d._def.button.toggle) {
-							return d[d._def.button.toggle] ? 1 : 0.2;
-						}
-						return 1;
-					});
-
-					//thisNode.selectAll('.node_right_button').attr("transform",function(d){return "translate("+(d.w - d._def.button.width.call(d))+","+0+")";}).attr("fill",function(d) {
-					//         return typeof d._def.button.color  === "function" ? d._def.button.color.call(d):(d._def.button.color != null ? d._def.button.color : d._def.color)
-					//});
-
-					thisNode.selectAll('.node_badge_group').attr("transform", function(d) {
-						return "translate(" + (d.w - 40) + "," + (d.h + 3) + ")";
-					});
-					thisNode.selectAll('text.node_badge_label').text(function(d, i) {
-						if (d._def.badge) {
-							if ( typeof d._def.badge == "function") {
-								return d._def.badge.call(d);
-							} else {
-								return d._def.badge;
-							}
-						}
-						return "";
-					});
-					if (!showStatus || !d.status) {
-						thisNode.selectAll('.node_status_group').style("display", "none");
-					} else {
-						thisNode.selectAll('.node_status_group').style("display", "inline").attr("transform", "translate(3," + (d.h + 3) + ")");
-						var fill = status_colours[d.status.fill];
-						// Only allow our colours for now
-						if (d.status.shape == null && fill == null) {
-							thisNode.selectAll('.node_status').style("display", "none");
-						} else {
-							var style;
-							if (d.status.shape == null || d.status.shape == "dot") {
-								style = {
-									display : "inline",
-									fill : fill,
-									stroke : fill
-								};
-							} else if (d.status.shape == "ring") {
-								style = {
-									display : "inline",
-									fill : '#fff',
-									stroke : fill
-								}
-							}
-							thisNode.selectAll('.node_status').style(style);
-						}
-						if (d.status.text) {
-							thisNode.selectAll('.node_status_label').text(d.status.text);
-						} else {
-							thisNode.selectAll('.node_status_label').text("");
-						}
-					}
-
-					d.dirty = false;
-				}
-			});
-		}
-
-		var link = vis.selectAll(".link").data(PORTAL.nodes.links.filter(function(d) {
-			return d.source.z == activeWorkspace && d.target.z == activeWorkspace
-		}), function(d) {
-			return d.source.id + ":" + d.sourcePort + ":" + d.target.id;
-		});
-
-		var linkEnter = link.enter().insert("g", ".node").attr("class", "link");
-
-		//draw link
-		linkEnter.each(function(d, i) {
-			if (d.source._def.category != d.target._def.category) {
-				var l = d3.select(this);
-				l.append("svg:path").attr("class", "link_background link_path").on("mousedown", function(d) {
-					mousedown_link = d;
-					clearSelection();
-					selected_link = mousedown_link;
-					updateSelection();
-					redraw();
-					d3.event.stopPropagation();
-				}).on("touchstart", function(d) {
-					mousedown_link = d;
-					clearSelection();
-					selected_link = mousedown_link;
-					updateSelection();
-					redraw();
-					d3.event.stopPropagation();
-				});
-				l.append("svg:path").attr("class", "link_outline link_path");
-
-				//change line colors
-				if (d.source.type == "cloudsettings") {
-					l.append("svg:path").attr("class", "link_line link_path");
-				} else {
-					if (d.source.type == "docker") {
-						l.append("svg:path").attr("class", "link_line link_path");
-					} else {
-						l.append("svg:path").attr("class", "link_line_bind link_path");
-					}
-				}
-			}
-		});
-
-		link.exit().remove();
-
-		var links = vis.selectAll(".link_path");
-		links.attr("d", function(d) {
-			var numOutputs = d.source.outputs || 1;
-			var sourcePort = d.sourcePort || 0;
-			var y = -((numOutputs - 1) / 2) * 13 + 13 * sourcePort;
-
-			var dy = d.target.y - (d.source.y + y);
-			var dx = (d.target.x - d.target.w / 2) - (d.source.x + d.source.w / 2);
-			var delta = Math.sqrt(dy * dy + dx * dx);
-			var scale = lineCurveScale;
-			var scaleY = 0;
-			if (delta < node_width) {
-				scale = 0.75 - 0.75 * ((node_width - delta) / node_width);
-			}
-
-			if (dx < 0) {
-				scale += 2 * (Math.min(5 * node_width, Math.abs(dx)) / (5 * node_width));
-				if (Math.abs(dy) < 3 * node_height) {
-					scaleY = ((dy > 0) ? 0.5 : -0.5) * (((3 * node_height) - Math.abs(dy)) / (3 * node_height)) * (Math.min(node_width, Math.abs(dx)) / (node_width));
-				}
-			}
-
-			d.x1 = d.source.x + d.source.w / 2;
-			d.y1 = d.source.y + y;
-			d.x2 = d.target.x - d.target.w / 2;
-			d.y2 = d.target.y;
-
-			return "M " + (d.source.x + d.source.w / 2) + " " + (d.source.y + y) + " C " + (d.source.x + d.source.w / 2 + scale * node_width) + " " + (d.source.y + y + scaleY * node_height) + " " + (d.target.x - d.target.w / 2 - scale * node_width) + " " + (d.target.y - scaleY * node_height) + " " + (d.target.x - d.target.w / 2) + " " + d.target.y;
-		});
-
-		link.classed("link_selected", function(d) {
-			return d === selected_link || d.selected;
-		});
-		link.classed("link_unknown", function(d) {
-			return d.target.type == "unknown" || d.source.type == "unknown";
-		});
-
+             }
+         });
+		
 		if (d3.event) {
 			d3.event.preventDefault();
-		}
+		}	
 	}
 
 

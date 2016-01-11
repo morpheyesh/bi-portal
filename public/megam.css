@@ -39,6 +39,8 @@ input[type=radio   ]:not(old) + label{
 }
 
 .node-table {
+    stroke: rgb(93, 114, 145);
+    stroke-width: 1;
     border: 5px solid #4CAF50;
     border-collapse: collapse;
 }
