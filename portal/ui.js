@@ -20,6 +20,7 @@ var crypto = require('crypto');
 var fs = require("fs");
 var app = express();
 var events = require("./events");
+var connectors = require("./connectors/connector")
 var path = require("path");
 var icon_paths = [path.resolve(__dirname + '/../public/icons')];
 
@@ -35,11 +36,26 @@ function setupUI(settings) {
 	app.get("/", function(req, res) {
 		req.next();
 	});
-	
+
 	app.get("/mconnect", function(req, res) {
 		res.sendFile(path.resolve(__dirname + '/../public/mconnect.html'));
 	});
-	
+
+	app.get("/connectors", function(req, res) {
+		connectors.init(req.query);
+		connectors.getConnection(req.query);
+		connectors.getData().then(function() {
+			var result = connectors.getResult();
+			res.send(result);
+		}).otherwise(function(err) {
+			console.log("error");
+		});
+		//connectors.getData();
+		//console.log(connectors.getResult());
+		//console.log(req.query);
+		
+	});
+
 	var iconCache = {};
 	//TODO: create a default icon
 	var defaultIcon = path.resolve(__dirname + '/../public/icons/arrow-in.png');
