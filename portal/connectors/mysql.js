@@ -1,3 +1,20 @@
+/*
+ ** Copyright [2013] [Megam Systems]
+ **
+ ** Licensed under the Apache License, Version 2.0 (the "License");
+ ** you may not use this file except in compliance with the License.
+ ** You may obtain a copy of the License at
+ **
+ ** http://www.apache.org/licenses/LICENSE-2.0
+ **
+ ** Unless required by applicable law or agreed to in writing, software
+ ** distributed under the License is distributed on an "AS IS" BASIS,
+ ** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ ** See the License for the specific language governing permissions and
+ ** limitations under the License.
+ */
+
+
 var mysql = require('mysql');
 var when = require("when");
 var _connection;
@@ -26,52 +43,83 @@ MySQL.prototype.getPassword = function() {
 	return this._password;
 };
 
-MySQL.prototype.getResult = function() {
-	return _result;
-};
-
-
 MySQL.prototype.getConnection = function() {
-
 	_connection = mysql.createConnection({
 		host : this._host,
 		user : this._username,
 		password : this._password,
 		database : this._dbname
 	});
-	
-	_connection.connect(function(err) {
-    if (err) {
-      console.error('error connecting: ' + err.stack);
-      return;
-     }
- 
-     console.log('connected as id ' + _connection.threadId);
-   });
 
-};
-
-MySQL.prototype.getData = function() {
-	var cs_defer = when.defer();
-	_connection.query('SHOW tables', function(err, tablesresult) {
-		console.log(tablesresult);
-		for(var i in tablesresult){
-			_connection.query('SHOW COLUMNS FROM ' + tablesresult[i].Tables_in_retail, function(err, columnsresult) {
-				var columns = [];
-				console.log(columnsresult);
-				for(var j in columnsresult){
-					columns.push(columnsresult[j].Field);
-				};	
-				_result.push({name: tablesresult[i].Tables_in_retail, columns});
-			});
-			if(parseInt(i)+1 == tablesresult.length){
-				console.log(tablesresult.length);
-				console.log("=============================");
-				cs_defer.resolve();
+	return when.promise(function(resolve, reject) {
+		_connection.connect(function(err) {
+			if (err) {
+				console.error('error connecting: ' + err.stack);
+				reject(new Error(err));
+			} else {
+				console.log('connected as id ' + _connection.threadId);
+				resolve(_connection);
 			}
-		};
+		});
 	});
-  return cs_defer.promise;
 };
+
+MySQL.prototype.getData = function(connection) {
+	var _array = [];
+    _result = [];
+	return when.promise(function(resolve, reject) {
+		listTables(connection).then(function(tables) {
+			for (var i in tables) {
+				_array.push(listFields(connection, tables[i]))
+			}
+			when.all(_array).then(function() {
+				resolve(_result);
+			}).otherwise(function(err) {
+				reject(err);
+			});
+		}).otherwise(function(err) {
+			console.log("error");
+			reject(err);
+		});
+	});
+
+};
+
+function listTables(connection) {
+	var _tables = [];
+
+	return when.promise(function(resolve, reject) {
+		connection.query("SHOW tables").on('error', function(err) {
+			// Handle error, an 'end' event will be emitted after this as well
+			reject(err);
+		}).on('result', function(row) {
+			// Pausing the connnection is useful if your processing involves I/O
+			for (var key in row) {
+				_tables.push(row[key]);
+			}
+			//_tables.push(row.Tables_in_retail);
+
+		}).on('end', function() {
+			// all rows have been received
+			resolve(_tables);
+		});
+	});
+}
+
+function listFields(connection, tableName) {
+	var schemas = [];
+	return when.promise(function(resolve, reject) {
+		connection.query('SHOW COLUMNS FROM ' + tableName).on('error', function(err) {
+			// Handle error, an 'end' event will be emitted after this as well
+			reject(err);
+		}).on('result', function(row) {
+			// Pausing the connnection is useful if your processing involves I/O
+			schemas.push(row.Field);
+		}).on('end', function() {
+			// all rows have been received
+			resolve(_result.push({name : tableName, schemas }));
+		});
+	});
+}
 
 module.exports = MySQL;

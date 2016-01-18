@@ -61,21 +61,24 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="btn-group pull-right">
-                        <a id="btn-deploy" class="btn action-deploy" href="#" ><i id="btn-icn-deploy" class="icon-upload"></i> Save</a>
-                    </div>
-                    <div class="btn-group pull-right">
-                        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
-                            Connectors
-                        </button>
-                    </div>
+                   
                 </div>
             </div>
         </div>
 
         <div id="main-container" class="sidebar-closed">
-            <div id="palette">
 
+            <div id="palette">
+                <br/>
+                <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">
+                    Add
+                </button>
+                <br/>
+                <br/>
+                <button type="button" class="btn btn-info btn-lg" >
+                    Save
+                </button>
+                <img src="spin.gif" class="palette-spinner"/>
                 <div id="palette-container" class="palette-scroll">
                     <br/>
                     <ul id="paletteList"></ul>
@@ -114,14 +117,22 @@
         </div>
 
         <div id="sidebar">
-            <ul id="sidebar-tabs"></ul>
-            <div id="sidebar-content"></div>
+            <div id="sidebar-content">
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <p><h3>&nbsp;&nbsp;&nbsp;connect1</h3></p>
+                <p><h3>&nbsp;&nbsp;&nbsp;connect2</h3></p>
+                <p><h3>&nbsp;&nbsp;&nbsp;connect3</h3></p>
+                <p><h3>&nbsp;&nbsp;&nbsp;connect4</h3></p>
+            </div>
         </div>
 
         <div id="sidebar-separator"></div>
 
         </div>
-       <div id="notifications"></div>
+        <div id="notifications"></div>
         <div class="container">
             <hr>
 
@@ -149,22 +160,22 @@
                         <br/>
                         <br/>
                         <br/>
-                        <form action="/connectors">
-                            <input type="hidden" name="connector" value="mysql">
-                            Database Name:
-                            <input type="text" name="dbname" id="dbname">
-                            <br/>
-                            Host:
-                            <input type="text" name="host" id="host">
-                            <br/>
-                            UserName:
-                            <input type="text" name="username" id="username">
-                            <br/>
-                            Password:
-                            <input type="text" name="password" id="password">
-                            <br/>
-                            <input type="submit" value="Submit" id="connector_submit">
-                        </form>
+                        <!--<form action="/connectors"> -->
+                        <input type="hidden" name="connector" id="connector" value="mysql">
+                        Database Name:
+                        <input type="text" name="dbname" id="dbname">
+                        <br/>
+                        Host:
+                        <input type="text" name="host" id="host">
+                        <br/>
+                        UserName:
+                        <input type="text" name="username" id="username">
+                        <br/>
+                        Password:
+                        <input type="text" name="password" id="password">
+                        <br/>
+                        <input type="submit" value="Submit" id="connector_submit">
+                        <!-- </form> -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -187,6 +198,7 @@
         <script src="portal/ui/notifications.js"></script>
         <script src="portal/ui/view.js"></script>
         <script src="portal/ui/plumb.js"></script>
+        <script src="portal/ui/sidebar.js"></script>
         <script src="d3.v3.min.js"></script>
         <!--SCRIPTS END-->
     </body>

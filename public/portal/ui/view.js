@@ -1,3 +1,20 @@
+/*
+ ** Copyright [2013] [Megam Systems]
+ **
+ ** Licensed under the Apache License, Version 2.0 (the "License");
+ ** you may not use this file except in compliance with the License.
+ ** You may obtain a copy of the License at
+ **
+ ** http://www.apache.org/licenses/LICENSE-2.0
+ **
+ ** Unless required by applicable law or agreed to in writing, software
+ ** distributed under the License is distributed on an "AS IS" BASIS,
+ ** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ ** See the License for the specific language governing permissions and
+ ** limitations under the License.
+ */
+
+
 PORTAL.view = function() {
 
 	var space_width = 5000, space_height = 5000, lineCurveScale = 0.75, scaleFactor = 1, node_width = 100, node_height = 200;
@@ -6,37 +23,35 @@ PORTAL.view = function() {
 	$("#connector_submit").click(function() {
 		$("#myModal").modal('hide');
 		//PORTAL.notify("Saved nodes","success");
-       /* var json = {};
-        json["dbname"] = $("#dbname").val();
-        json["host"] = $("#host").val();
-        json["username"] = $("#username").val();
-        json["password"] = $("#password").val();
-       
-       
+		var json = {};
+		json["connector"] = $("#connector").val();
+		json["dbname"] = $("#dbname").val();
+		json["host"] = $("#host").val();
+		json["username"] = $("#username").val();
+		json["password"] = $("#password").val();
+
 		$.ajax({
 			url : "/connectors",
 			type : "POST",
-			data : json,
+			data : JSON.stringify(json),
 			contentType : "application/json",
 		}).done(function(data, textStatus, xhr) {
-			PORTAL.notify("Successfully deployed", "success");
-			console.log("===========================");
-			
-		}).fail(function(xhr, textStatus, err) {			
-				PORTAL.notify("<strong>Error</strong>: " + xhr.responseText, "error");	
-				console.log("==================fdvfv");		
-		}).always(function() {
-			console.log("--------------------------");
-		});*/
+			PORTAL.notify("Successfully load all schemas", "success");
+			PORTAL.nodes.registerType(data);
+			$(".palette-scroll").show();
+			$(".palette-spinner").hide();
 
+		}).fail(function(xhr, textStatus, err) {
+			PORTAL.notify("<strong>Error</strong>: " + xhr.responseText, "error");
+		});
 	});
+		
 
 	$("#chart").droppable({
 		accept : ".palette_node",
 		drop : function(event, ui) {
 			d3.event = event;
 			var selected_tool = ui.draggable[0].type;
-			console.log(selected_tool);
 			var mousePos = d3.touches(this)[0] || d3.mouse(this);
 			mousePos[1] += this.scrollTop;
 			mousePos[0] += this.scrollLeft;
