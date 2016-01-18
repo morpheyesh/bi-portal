@@ -121,7 +121,7 @@
         <div id="sidebar-separator"></div>
 
         </div>
-
+       <div id="notifications"></div>
         <div class="container">
             <hr>
 
@@ -150,20 +150,20 @@
                         <br/>
                         <br/>
                         <form action="/connectors">
-                            <input type="hidden" name="connector", value="mysql">
+                            <input type="hidden" name="connector" value="mysql">
                             Database Name:
-                            <input type="text" name="dbname">
+                            <input type="text" name="dbname" id="dbname">
                             <br/>
                             Host:
-                            <input type="text" name="host">
+                            <input type="text" name="host" id="host">
                             <br/>
                             UserName:
-                            <input type="text" name="username">
+                            <input type="text" name="username" id="username">
                             <br/>
                             Password:
-                            <input type="text" name="password">
+                            <input type="text" name="password" id="password">
                             <br/>
-                            <input type="submit" value="Submit">
+                            <input type="submit" value="Submit" id="connector_submit">
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -184,10 +184,10 @@
         <script src="portal/main.js"></script>
         <script src="portal/nodes.js"></script>
         <script src="portal/ui/palette.js"></script>
+        <script src="portal/ui/notifications.js"></script>
         <script src="portal/ui/view.js"></script>
         <script src="portal/ui/plumb.js"></script>
         <script src="d3.v3.min.js"></script>
-
         <!--SCRIPTS END-->
     </body>
 </html>

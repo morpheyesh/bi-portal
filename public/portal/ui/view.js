@@ -3,6 +3,34 @@ PORTAL.view = function() {
 	var space_width = 5000, space_height = 5000, lineCurveScale = 0.75, scaleFactor = 1, node_width = 100, node_height = 200;
 	var activeWorkspace = 0;
 
+	$("#connector_submit").click(function() {
+		$("#myModal").modal('hide');
+		//PORTAL.notify("Saved nodes","success");
+       /* var json = {};
+        json["dbname"] = $("#dbname").val();
+        json["host"] = $("#host").val();
+        json["username"] = $("#username").val();
+        json["password"] = $("#password").val();
+       
+       
+		$.ajax({
+			url : "/connectors",
+			type : "POST",
+			data : json,
+			contentType : "application/json",
+		}).done(function(data, textStatus, xhr) {
+			PORTAL.notify("Successfully deployed", "success");
+			console.log("===========================");
+			
+		}).fail(function(xhr, textStatus, err) {			
+				PORTAL.notify("<strong>Error</strong>: " + xhr.responseText, "error");	
+				console.log("==================fdvfv");		
+		}).always(function() {
+			console.log("--------------------------");
+		});*/
+
+	});
+
 	$("#chart").droppable({
 		accept : ".palette_node",
 		drop : function(event, ui) {
@@ -26,25 +54,26 @@ PORTAL.view = function() {
 			nn.name = selected_tool;
 			nn._def = PORTAL.nodes.getType(nn.name);
 
-			var alignment = {'top': ui.offset.top, 'left': ui.offset.left};
+			var alignment = {
+				'top' : ui.offset.top,
+				'left' : ui.offset.left
+			};
 			drawTable(nn, alignment);
 
 		}
-	});	
+	});
 
 	function drawTable(nn, alignment) {
-		
-		var content = '<div class="window '+nn._def.name+'" >';
+
+		var content = '<div class="window ' + nn._def.name + '" >';
 		console.log(nn._def.schemas[0]);
-		
-		$.each(nn._def.schemas, function( key, value ) {
-           content += '<div class="button_container">' + 
-				         '<div class="button_add '+ nn._def.name+'_'+value+'">'+value+'</div>' + 
-				       '</div>';
-      });
-		
+
+		$.each(nn._def.schemas, function(key, value) {
+			content += '<div class="button_container">' + '<div class="button_add ' + nn._def.name + '_' + value + '">' + value + '</div>' + '</div>';
+		});
+
 		content += '</div>';
-        $(content).css(alignment);
+		$(content).css(alignment);
 		$('#chart').append(content);
 		PORTAL.plumb.plumby(nn, content);
 

@@ -39,14 +39,26 @@ MySQL.prototype.getConnection = function() {
 		password : this._password,
 		database : this._dbname
 	});
+	
+	_connection.connect(function(err) {
+    if (err) {
+      console.error('error connecting: ' + err.stack);
+      return;
+     }
+ 
+     console.log('connected as id ' + _connection.threadId);
+   });
+
 };
 
 MySQL.prototype.getData = function() {
 	var cs_defer = when.defer();
 	_connection.query('SHOW tables', function(err, tablesresult) {
+		console.log(tablesresult);
 		for(var i in tablesresult){
 			_connection.query('SHOW COLUMNS FROM ' + tablesresult[i].Tables_in_retail, function(err, columnsresult) {
 				var columns = [];
+				console.log(columnsresult);
 				for(var j in columnsresult){
 					columns.push(columnsresult[j].Field);
 				};	
