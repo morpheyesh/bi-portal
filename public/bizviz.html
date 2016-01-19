@@ -71,6 +71,89 @@
       </div>
     </div>
   </div>
+<!--  <form id="edit-profile2" class="form-vertical pull-right">
+    <div class="row">
+      <div class="span6">
+        <div class="widget">
+          <div class="widget-header">
+            <i class="icon-bar-chart"></i>
+            <h3>Chart-1</h3>
+          </div>
+          <div class="widget-content">
+            <canvas id="bar-chart1" class="chart-holder" width="538" height="250"></canvas>
+          </div>
+        </div>
+      </div>
+      </div>
+
+  </form> -->
+
+
+  <div class="container">
+                    <div class="row">
+                        <div class="span12">
+                            <div class="tabbable">
+
+
+
+
+                                    <div class="tab-pane" id="analysis">
+                                        <form id="edit-profile2" class="form-vertical">
+                                            <div class="row">
+                                                <div class="span6">
+                                                    <div class="widget">
+                                                        <div class="widget-header">
+                                                            <i class="icon-bar-chart"></i>
+                                                            <h3>Chart</h3>
+                                                        </div>
+                                                        <div class="widget-content">
+                                                            <canvas id="bar-chart1" class="chart-holder" width="538" height="250"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="span6">
+                                                    <div class="widget">
+                                                        <div class="widget-header">
+                                                            <i class="icon-bar-chart"></i>
+                                                            <h3>Chart</h3>
+                                                        </div>
+                                                        <div class="widget-content">
+                                                            <canvas id="bar-chart2" class="chart-holder" width="538" height="250"></canvas>
+                                                        </div>
+                                                    </div>
+                                                     </div>
+                                                <div class="span6">
+                                                    <div class="widget">
+                                                        <div class="widget-header">
+                                                            <i class="icon-bar-chart"></i>
+                                                            <h3>Chart</h3>
+                                                        </div>
+                                                        <div class="widget-content">
+                                                            <canvas id="bar-chart3" class="chart-holder" width="538" height="250"></canvas>
+                                                        </div>
+                                                    </div>
+                                                     </div>
+                                                <div class="span6">
+                                                    <div class="widget">
+                                                        <div class="widget-header">
+                                                            <i class="icon-bar-chart"></i>
+                                                            <h3>Chart</h3>
+                                                        </div>
+                                                        <div class="widget-content">
+                                                            <canvas id="bar-chart4" class="chart-holder" width="538" height="250"></canvas>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
   <div id="main-container" class="sidebar-closed">
 
@@ -90,25 +173,7 @@
 
     </div>
 
-    <div class="tab-pane" id="analysis">
-      <form id="edit-profile2" class="form-vertical ">
-        <div class="row ">
-          <div class="span6 pull-right">
-            <div class="widget ">
-              <div class="widget-header">
-                <i class="icon-bar-chart"></i>
-                <h3>Chart-1</h3>
-              </div>
-              <div class="widget-content">
-                <canvas id="barc" class="chart-holder" width="538" height="250"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-  </div>
+
   </div>
 
   <!-- Modal
@@ -157,6 +222,9 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">
             Close
+          </button>
+          <button type="button" id="save" class="btn btn-default" data-dismiss="modal">
+            Save
           </button>
         </div>
       </div>
@@ -225,6 +293,14 @@
         var myNewChart = new Chart(ctx);
         myNewChart.Line(data);
       });
+      $("#save").click(function() {
+        //  data.datasets[0].data = getQueryData();
+        var ctx = document.getElementById("bar-chart1").getContext("2d");
+
+        var myNewChart = new Chart(ctx);
+        myNewChart.Line(data);
+      });
+
 
       var ctx = canvas[0].getContext("2d");
       var optionsNoAnimation = {
@@ -258,60 +334,6 @@
             ]
         }, {}); */
     });
-
-    /*
-    $('#modChart').on('show.bs.modal',function(event){
-        var link = $(event.relatedTarget);
-        // get data source
-        var source = link.attr('data-source').split(',');
-        // get title
-        var title = link.html();
-        // get labels
-        var table = link.parents('table');
-        var labels = [];
-        $('#'+table.attr('id')+'>thead>tr>th').each(function(index,value){
-            // without first column
-            if(index>0){labels.push($(value).html());}
-        });
-        // get target source
-        var target = [];
-        $.each(labels, function(index,value){
-            target.push(link.attr('data-target-source'));
-        });
-        // Chart initialisieren
-        var modal = $(this);
-        var canvas = modal.find('.modal-body canvas');
-        modal.find('.modal-title').html(title);
-        var ctx = canvas[0].getContext("2d");
-        var chart = new Chart(ctx).Line({
-            responsive: true,
-            labels: labels,
-            datasets: [{
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: source
-            },{
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "#F7464A",
-                pointColor: "#FF5A5E",
-                pointStrokeColor: "#FF5A5E",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "red",
-                data: target
-            }]
-        },{});
-    }).on('hidden.bs.modal',function(event){
-        // reset canvas size
-        var modal = $(this);
-        var canvas = modal.find('.modal-body canvas');
-        canvas.attr('width','568px').attr('height','300px');
-        // destroy modal
-        $(this).data('bs.modal', null);
-    }); */
   </script>
 
 </body>
