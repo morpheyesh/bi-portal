@@ -14,16 +14,16 @@
  * limitations under the License.
  **/
 
-/* 
+/*
  * This is modified by Megam Systems.
  */
 
-var PORTAL = function() {   
+var PORTAL = function() {
 
     function save(force) {
-    }     
-    
-    
+    }
+
+
     function loadFlows() {
        // $.getJSON("flows",function(nodes) {
         	//console.log(nodes);
@@ -40,16 +40,16 @@ var PORTAL = function() {
             PORTAL.nodes.registerType(sample);
              $(".palette-scroll").show();
             //PORTAL.view.dirty(false);
-            //PORTAL.view.redraw();           
+            //PORTAL.view.redraw();
         //});
-    }    
-    
-  
+    }
+
+
     $(function() {
        // PORTAL.keyboard.add(/* ? */ 191,{shift:true},function(){showHelp();d3.event.preventDefault();});
         //setWorkSpace();
-        loadFlows(); 
-    }); 
+        loadFlows();
+    });
 
     return {
     };

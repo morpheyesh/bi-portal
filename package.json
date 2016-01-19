@@ -1,46 +1,55 @@
 {
-    "name"         : "bi-portal",
-    "version"      : "0.0.1",
-    "description"  : "Meglytics-BI User Interface.",
-    "homepage"     : "http://megam.io",
-    "license"      : "Apache",
-    "repository"   : {
-        "type":"git",
-        "url":"https://github.com/megamsys/bi-portal.git"
-    },
-    "scripts"      : {
-        "start": "node portal.js",
-        "test": "./node_modules/.bin/grunt"
-    },   
-    "keywords": [],
-    "dependencies": {
-        "express": "4.13.3",
-        "when": "3.7.7",
-        "nopt": "3.0.6",
-        "cors":"2.7.1",
-        "mkdirp":"0.5.1",
-        "request":"2.67.0",
-        "time":"0.11.4",
-        "debug":"2.2.0",
-		"ms":"0.7.1",
-        "nan":"2.1.0",
-        "exit":"0.1.2",
-        "random-words":"0.0.1",
-        "jsplumb": "2.0.3",
-        "mysql": "2.10.2",
-        "body-parser": "1.14.2",
-        "multer": "1.1.0"
-    },
-    "devDependencies": {
-        "grunt": "0.4.5",
-        "grunt-cli": "0.1.13",
-        "grunt-simple-mocha": "0.4.1",
-        "grunt-contrib-jshint": "0.11.3",
-        "mocha": "2.3.4",
-        "should": "8.0.2",
-        "sinon": "1.17.2"
-    },
-    "engines": {
-        "node": "v4.2.2"
-    }
+  "name": "bi-portal",
+  "version": "0.0.1",
+  "description": "Meglytics-BI User Interface.",
+  "homepage": "http://megam.io",
+  "license": "Apache",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/megamsys/bi-portal.git"
+  },
+  "scripts": {
+    "start": "babel-node server.js",
+    "watch": "nodemon --exec babel-node -- server.js"
+  },
+  "main": "portal.js",
+  "keywords": [],
+  "dependencies": {
+    "babel": "^5.6.23",
+    "body-parser": "1.14.2",
+    "cors": "2.7.1",
+    "debug": "2.2.0",
+    "exit": "0.1.2",
+    "express": "4.13.3",
+    "jsplumb": "2.0.3",
+    "mkdirp": "0.5.1",
+    "ms": "0.7.1",
+    "multer": "1.1.0",
+    "mysql": "2.10.2",
+    "nan": "2.1.0",
+    "nopt": "3.0.6",
+    "random-words": "0.0.1",
+    "react": "^0.13.3",
+    "react-bootstrap": "0.25.2",
+    "react-dom": "^0.14.6",
+    "react-grid-layout": "^0.8.5",
+    "react-modal": "^0.6.1",
+    "react-router": "^0.13.5",
+    "request": "2.67.0",
+    "swig": "^1.4.2",
+    "time": "0.11.4",
+    "when": "3.7.7"
+  },
+  "devDependencies": {
+    "grunt": "0.4.5",
+    "grunt-cli": "0.1.13",
+    "grunt-contrib-jshint": "0.11.3",
+    "grunt-simple-mocha": "0.4.1",
+    "mocha": "2.3.4",
+    "should": "8.0.2",
+    "sinon": "1.17.2"
+  },
+  "engines": {
+    "node": "v4.2.2"
+  }
 }
