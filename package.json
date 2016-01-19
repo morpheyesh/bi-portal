@@ -28,8 +28,7 @@
         "random-words":"0.0.1",
         "jsplumb": "2.0.3",
         "mysql": "2.10.2",
-        "body-parser": "1.14.2",
-        "multer": "1.1.0"
+        "body-parser": "1.14.2"
     },
     "devDependencies": {
         "grunt": "0.4.5",

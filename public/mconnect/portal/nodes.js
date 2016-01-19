@@ -14,34 +14,34 @@
  ** limitations under the License.
  */
 
-var MYSQL = require("./mysql.js");
-var _connect = '';
-var _connectorname = '';
-var _data = "";
+//var randomWords = require('random-words');
 
-var connectors = module.exports = {
-	init : function(options) {
-		console.log(options);
-		switch(options.connector) {
-		case "mysql":
-		    _connect = new MYSQL(options);
-			break;
-		default:
-			break;
+PORTAL.nodes = function() {
 
-		}
-	},
+	var node_defs = {};
+	var nodes = [];
+	var configNodes = {};
+	var links = [];
+	var defaultWorkspace;
+	var workspaces = {};
+	var obj = JSON.parse("{}");
 
-	getConnection : function() {
-		return _connect.getConnection();
-	},
 	
-	getData : function(connection) {
-		return _connect.getData(connection);
-	},
-
-	generateData : function(connection) {
-
-		return _connect.generateData(connection);
+	
+	function registerType(def) {
+		 for (var i = 0; i < def.length; i++) {    	       
+            node_defs[def[i].name] = def[i];
+		   // TODO: too tightly coupled into palette UI
+		   PORTAL.palette.add(def[i]);
+         }		
+	}	
+	
+	function getType(name) {
+		return node_defs[name];
 	}
-}; 
+
+	return {
+		registerType : registerType,
+		getType : getType		
+	};
+}();
