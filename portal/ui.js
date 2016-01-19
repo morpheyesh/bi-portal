@@ -19,12 +19,8 @@ require("node-jsx").install();
 
 var express = require('express');
 var util = require('util');
-var crypto = require('crypto');
-var fs = require("fs");
 var app = express();
 var bodyParser = require('body-parser');
-//var multer = require('multer'); // v1.0.5
-//var upload = multer(); // for parsing multipart/form-data
 var events = require("./events");
 var connectors = require("./connectors/connector")
 var path = require("path");
@@ -42,6 +38,18 @@ events.on("node-icon-dir", function(dir) {
 
 // TODO: nothing here uses settings... so does this need to be a function?
 function setupUI(settings) {
+
+	var iconCache = {};
+	//TODO: create a default icon
+	var defaultIcon = path.resolve(__dirname + '/../public/icons/arrow-in.png');
+	app.use("/", express.static(__dirname + '/../public'));
+
+	app.use(bodyParser.json());
+	// for parsing application/json
+	app.use(bodyParser.urlencoded({
+		extended : true
+	}));
+	// for parsing application/x-www-form-urlencoded
 
 	// Need to ensure the url ends with a '/' so the static serving works
 	// with relative paths
@@ -66,36 +74,18 @@ function setupUI(settings) {
 
 
 
-	app.get("/connectors", function(req, res) {
-		console.log("----------------------------");
-		//console.log(req.body);
-		connectors.init(req.query);
-		connectors.getConnection();
-		connectors.getData().then(function() {
-			connectors.getData();
-			console.log(result);
-			res.send(result);
+	app.post("/connectors", function(req, res) {
+		connectors.init(req.body);
+		connectors.getConnection().then(function(connection) {
+			connectors.getData(connection).then(function(result) {
+				res.send(result);
+			}).otherwise(function(err) {
+				res.status(500).send(err);
+			});
 		}).otherwise(function(err) {
-			console.log("error");
+				res.status(500).send(err);
 		});
-		//connectors.getData();
-		//console.log(connectors.getResult());
-		//console.log(req.query);
-
 	});
-
-	var iconCache = {};
-	//TODO: create a default icon
-	var defaultIcon = path.resolve(__dirname + '/../public/icons/arrow-in.png');
-	app.use("/", express.static(__dirname + '/../public'));
-
-	app.use(bodyParser.urlencoded({
-		extended : true
-	}));
-	app.use(bodyParser.json());
-
-	//app.use(bodyParser.json()); // for parsing application/json
-	//app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 	return app;
 }
