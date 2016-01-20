@@ -20,6 +20,9 @@ var app = express();
 var bodyParser = require('body-parser');
 var events = require("./events");
 var connectors = require("./connectors/connector")
+var api = require("./../api/api.js");
+var Accounts = require("./../api/json/accounts.js");
+var lib = require("./lib.js");
 var path = require("path");
 
 // TODO: nothing here uses settings... so does this need to be a function?
@@ -42,6 +45,18 @@ function setupUI(settings) {
 	app.get("/", function(req, res) {
 		req.next();
 	});
+	
+	app.post("/signup", function(req, res) {
+		console.log("++++++++++++++++++++++++++");
+		var json = req.body;
+		lib.mergeObjects(json, setDefaultOptions("megam", "account", "/accounts/content", new Accounts(json).toJson) );
+		api.init(json);		
+		api.post().then(function(result) {				
+				res.send(result);
+		}).otherwise(function(err) {
+				res.status(500).send(err);
+		});
+	});
 
 	app.get("/mconnect", function(req, res) {
 		res.sendFile(path.resolve(__dirname + '/../public/mconnect.html'));
@@ -59,6 +74,15 @@ function setupUI(settings) {
 				res.status(500).send(err);
 		});	
 	});
+
+   function setDefaultOptions(options_api, options_mixin, options_url, bodycontent) {
+   	return {api: options_api,
+   		    mixin: options_mixin,
+   		    url: options_url,
+   		    body: bodycontent, }
+   }
+   
+ 
 
 	return app;
 }
