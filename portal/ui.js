@@ -13,8 +13,6 @@
  ** See the License for the specific language governing permissions and
  ** limitations under the License.
  */
-require('babel-core/register');
-require("node-jsx").install();
 
 
 var express = require('express');
@@ -26,10 +24,6 @@ var connectors = require("./connectors/connector")
 var path = require("path");
 var icon_paths = [path.resolve(__dirname + '/../public/icons')];
 
-/* -- react-bizviz stuff -- */
-var swig = require('swig');
-var Router = require('react-router');
-var React = require('react');
 
 
 events.on("node-icon-dir", function(dir) {
@@ -63,14 +57,6 @@ function setupUI(settings) {
 	app.get("/bizviz", function(req, res) {
 		res.sendFile(path.resolve(__dirname + '/../public/bizviz.html'));
 	});
-
-	var React = require('react/addons'),
-	Bizviz = React.createFactory(require('../bizviz/components/Bizviz'));
-
-	/*app.get("/bizviz", function(req, res) {
-		var reactHtml = React.renderToString(Bizviz({}));
-	    res.render('../public/bizviz.html', {reactOutput: reactHtml});
-	}); */
 
 
 
