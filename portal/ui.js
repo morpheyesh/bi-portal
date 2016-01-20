@@ -14,6 +14,7 @@
  ** limitations under the License.
  */
 
+
 var express = require('express');
 var util = require('util');
 var app = express();
@@ -24,6 +25,13 @@ var api = require("./../api/api.js");
 var Accounts = require("./../api/json/accounts.js");
 var lib = require("./lib.js");
 var path = require("path");
+var icon_paths = [path.resolve(__dirname + '/../public/icons')];
+
+
+
+events.on("node-icon-dir", function(dir) {
+	icon_paths.push(path.resolve(dir));
+});
 
 // TODO: nothing here uses settings... so does this need to be a function?
 function setupUI(settings) {
@@ -61,18 +69,23 @@ function setupUI(settings) {
 	app.get("/mconnect", function(req, res) {
 		res.sendFile(path.resolve(__dirname + '/../public/mconnect.html'));
 	});
+	app.get("/bizviz", function(req, res) {
+		res.sendFile(path.resolve(__dirname + '/../public/bizviz.html'));
+	});
 
-	app.post("/connectors", function(req, res) {		
-		connectors.init(req.body);		
+
+
+	app.post("/connectors", function(req, res) {
+		connectors.init(req.body);
 		connectors.getConnection().then(function(connection) {
-			connectors.getData(connection).then(function(result) {				
+			connectors.getData(connection).then(function(result) {
 				res.send(result);
 			}).otherwise(function(err) {
 				res.status(500).send(err);
 			});
-		}).otherwise(function(err) {			
+		}).otherwise(function(err) {
 				res.status(500).send(err);
-		});	
+		});
 	});
 
    function setDefaultOptions(options_api, options_mixin, options_url, bodycontent) {
@@ -88,4 +101,3 @@ function setupUI(settings) {
 }
 
 module.exports = setupUI;
-
