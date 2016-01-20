@@ -1,4 +1,5 @@
 {
+
     "name"         : "bi-portal",
     "version"      : "0.0.1",
     "description"  : "Meglytics-BI User Interface.",
@@ -11,7 +12,7 @@
     "scripts"      : {
         "start": "node portal.js",
         "test": "./node_modules/.bin/grunt"
-    },   
+    },
     "keywords": [],
     "dependencies": {
         "express": "4.13.3",
