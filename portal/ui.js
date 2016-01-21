@@ -14,82 +14,100 @@
  ** limitations under the License.
  */
 
-
 var express = require('express');
+var session = require('express-session');
 var util = require('util');
 var app = express();
 var bodyParser = require('body-parser');
 var events = require("./events");
 var connectors = require("./connectors/connector")
-var api = require("./../api/api.js");
-var Accounts = require("./../api/json/accounts.js");
-var Workbenches = require("./../api/json/workbenches.js");
-
+var Accounts = require("./../lib/megam/core/accounts.js");
 var lib = require("./lib.js");
 var path = require("path");
+var flash = require('connect-flash');
 var icon_paths = [path.resolve(__dirname + '/../public/icons')];
 
+var growl = require('growl')
 
-
-events.on("node-icon-dir", function(dir) {
-	icon_paths.push(path.resolve(dir));
-});
-
-// TODO: nothing here uses settings... so does this need to be a function?
 function setupUI(settings) {
 
 	var iconCache = {};
-	//TODO: create a default icon
 	var defaultIcon = path.resolve(__dirname + '/../public/icons/arrow-in.png');
-	app.use("/", express.static(__dirname + '/../public'));
+	//app.use("/", express.static(__dirname + '/../public'));
 
 	app.use(bodyParser.json());
-	// for parsing application/json
+
 	app.use(bodyParser.urlencoded({
 		extended : true
 	}));
-	// for parsing application/x-www-form-urlencoded
 
-	// Need to ensure the url ends with a '/' so the static serving works
-	// with relative paths
+	app.use(session({
+		secret : 'MEGAMMEGLYTICS'
+	}));
+
+	app.use(express.static(path.join(__dirname, '/../public')));
+	app.set('views', __dirname + '/../views');
+	app.engine('html', require('ejs').renderFile);
+
+	app.use(flash());
+
 	app.get("/", function(req, res) {
-		req.next();
+		util.log('[portal] Loading index page ');
+		if (req.session.password) {
+			res.redirect("/mconnect");
+		} else {
+			res.render('index.html', {
+				message : req.flash('message')
+			});
+		}
+		//growl('Open a URL', { url: 'https://npmjs.org/package/growl' });
 	});
 
 	app.post("/signup", function(req, res) {
-		console.log("++++++++++++++++++++++++++");
 		var json = req.body;
-		lib.mergeObjects(json, setDefaultOptions("megam", "account", "/accounts/content", new Accounts(json).toJson) );
-		api.init(json);
-		api.post().then(function(result) {
-				res.send(result);
+		var acc = new Accounts(json.email, json.password);
+		util.log('[portal] User sigunup with this email > ' + json.email);
+		acc.create(json).then(function(result) {
+			util.log('[portal] User onboard successfully');
+			req.session.email = json.email;
+			req.session.password = json.password;
+			//growl('Open a URL', { url: 'https://npmjs.org/package/growl' });
+			res.redirect("/mconnect");
 		}).otherwise(function(err) {
-				res.status(500).send(err);
+			util.log('[portal] Error occured > ' + err);
+			req.flash('message', err)
+			res.redirect("/");
 		});
 	});
 
 	app.post("/workbench", function(req, res) {
 		console.log("+++++++++++++WB+++++++++++++");
-		var json = req.body;
-		console.log(json);
-		lib.mergeObjects(json, setDefaultOptions("megam", "workbenches", "/workbenches/content", new Workbenches(json).toJson) );
-		api.init(json);
-		api.post().then(function(result) {
-				res.send(result);
-		}).otherwise(function(err) {
-				res.status(500).send(err);
-		}); 
+		/*var json = req.body;
+		 console.log(json);
+		 lib.mergeObjects(json, setDefaultOptions("megam", "workbenches", "/workbenches/content", new Workbenches(json).toJson));
+		 api.init(json);
+		 api.post().then(function(result) {
+		 res.send(result);
+		 }).otherwise(function(err) {
+		 res.status(500).send(err);
+		 });*/
 	});
-
 
 	app.get("/mconnect", function(req, res) {
-		res.sendFile(path.resolve(__dirname + '/../public/mconnect.html'));
+		if (req.session.password) {
+			res.render('mconnect.html');
+		} else {
+			res.redirect('/');
+		}
 	});
+
 	app.get("/bizviz", function(req, res) {
-		res.sendFile(path.resolve(__dirname + '/../public/bizviz.html'));
+		if (req.session.password) {
+			res.render('bizviz.html');
+		} else {
+			res.redirect('/');
+		}
 	});
-
-
 
 	app.post("/connectors", function(req, res) {
 		connectors.init(req.body);
@@ -100,18 +118,9 @@ function setupUI(settings) {
 				res.status(500).send(err);
 			});
 		}).otherwise(function(err) {
-				res.status(500).send(err);
+			res.status(500).send(err);
 		});
 	});
-
-   function setDefaultOptions(options_api, options_mixin, options_url, bodycontent) {
-   	return {api: options_api,
-   		    mixin: options_mixin,
-   		    url: options_url,
-   		    body: bodycontent, }
-   }
-
-
 
 	return app;
 }

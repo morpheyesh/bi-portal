@@ -16,7 +16,6 @@
 
 var events = require("./events");
 var server = require("./server");
-var log = require("./log");
 var fs = require("fs");
 var settings = null;
 
@@ -45,7 +44,6 @@ var PORTAL = {
     start: server.start,
     stop: server.stop,
     events: events,
-    log: log,
 };
 
 PORTAL.__defineGetter__("app", function() { console.log("Deprecated use of PORTAL.app - use PORTAL.httpAdmin instead"); return server.app });

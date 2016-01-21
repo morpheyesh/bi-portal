@@ -17,6 +17,7 @@
 
 var mysql = require('mysql');
 var when = require("when");
+var util = require('util');
 var _connection;
 var _result = [];
 
@@ -54,10 +55,10 @@ MySQL.prototype.getConnection = function() {
 	return when.promise(function(resolve, reject) {
 		_connection.connect(function(err) {
 			if (err) {
-				console.error('error connecting: ' + err.stack);
+				util.log('[portal] Error > ' + err.stack);
 				reject(new Error(err));
 			} else {
-				console.log('connected as id ' + _connection.threadId);
+				util.log('[portal] connected as id > ' + _connection.threadId);
 				resolve(_connection);
 			}
 		});
@@ -78,7 +79,7 @@ MySQL.prototype.getData = function(connection) {
 				reject(err);
 			});
 		}).otherwise(function(err) {
-			console.log("error");
+			util.log("[portal] Error > " + err);
 			reject(err);
 		});
 	});
