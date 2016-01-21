@@ -21,7 +21,6 @@ var _data = "";
 
 var connectors = module.exports = {
 	init : function(options) {
-		console.log(options);
 		switch(options.connector) {
 		case "mysql":
 		    _connect = new MYSQL(options);

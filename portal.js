@@ -153,7 +153,7 @@ PORTAL.start().then(function() {
 process.on('uncaughtException', function(err) {
 	util.log('[portal] Uncaught Exception:');
 	util.log(err.stack);
-	process.exit(1);
+	//process.exit(1);
 });
 
 process.on('SIGINT', function() {

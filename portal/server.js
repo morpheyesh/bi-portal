@@ -30,20 +30,7 @@ function createServer(_server, _settings) {
 	server = _server;
 	settings = _settings;
 	app = createUI(settings);
-	nodeApp = express();
-
-	app.get("/nodes", function(req, res) {
-		res.send();
-	});	
-	
-	app.get("/login", function(req, res) {
-		res.send();
-	});
-	
-	app.get("/logout", function(req, res) {
-		res.send();
-	});
-	
+	nodeApp = express();	
 }
 
 function start() {
