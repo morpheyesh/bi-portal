@@ -21,8 +21,10 @@ var _data = "";
 
 var api = module.exports = {
 	init : function(options) {
+		console.log("=================================");
 		console.log(options);
-		switch(options.api) {
+		console.log("=================================");
+	switch(options.api) {
 		case "megam":
 		    _api = new MEGAM(options);
 			break;
@@ -30,12 +32,12 @@ var api = module.exports = {
 			break;
 
 		}
-	},	
-	
-	
+	},
+
+
 	post : function() {
 		return _api.post();
 	},
-	
-	
-}; 
+
+
+};

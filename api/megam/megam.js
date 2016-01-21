@@ -29,9 +29,9 @@ var version = "/v2";
 var result = {};
 var post_result = {};
 //var host = 'https://api.megam.io';
-var host = 'http://localhost:9000';
-var email = "";
-var password = "";
+var host = 'http://192.168.1.247:9000';
+var email = "yesh@megam.io";
+var password = "123";
 var url = "";
 var path = "";
 var headers = {};
@@ -44,7 +44,7 @@ var X_Megam_EMAIL = "X-Megam-EMAIL",
 	application_json = "application/json",
 	Accept = "Accept",
 	application_vnd_megam_json = "application/vnd.megam+json";
-	
+
 var _email = "",
 	_password = "",
 	_url = "",
@@ -55,19 +55,19 @@ function MEGAM(options) {
 	this._email = options.email.length > 1 ? options.email : "";
     this._password = options.password.length > 1 ? options.password : "";
 	this._url = options.url;
-	this._body = JSON.stringify(options);	
+	this._body = JSON.stringify(options);
 }
 
 /*setBody = function(options, type) {
 	mixin.init(options, type);
-	this._body = mixin.toJson();	
+	this._body = mixin.toJson();
 };
 
 setHeaders = function(options) {
 	this._path = version + this._url;
 
 	var hmac = generateHMAC(this._body, this._path, this._password);
-	
+
 	this._headers = {
 				X_Megam_DATE : now.toString(),
 				X_Megam_EMAIL : this._email,
@@ -75,7 +75,7 @@ setHeaders = function(options) {
 				X_Megam_HMAC : this._email + ":" + hmac,
 				Accept : application_vnd_megam_json,
 				Content_Type : application_json
-			};	
+			};
 };*/
 
 MEGAM.prototype.post = function() {
@@ -134,7 +134,7 @@ function calculateMD5(data) {
 
 function generateHMAC(body, path, password) {
 	var algorithm = 'sha1';
-	var hash, hmac;	
+	var hash, hmac;
 	hmac = crypto.createHmac(algorithm, password).update(createSign(body, path)).digest("hex");
 	console.log(hmac);
 	return hmac;
@@ -142,5 +142,3 @@ function generateHMAC(body, path, password) {
 
 
 module.exports = MEGAM;
-
-

@@ -23,6 +23,8 @@ var events = require("./events");
 var connectors = require("./connectors/connector")
 var api = require("./../api/api.js");
 var Accounts = require("./../api/json/accounts.js");
+var Workbenches = require("./../api/json/workbenches.js");
+
 var lib = require("./lib.js");
 var path = require("path");
 var icon_paths = [path.resolve(__dirname + '/../public/icons')];
@@ -53,18 +55,32 @@ function setupUI(settings) {
 	app.get("/", function(req, res) {
 		req.next();
 	});
-	
+
 	app.post("/signup", function(req, res) {
 		console.log("++++++++++++++++++++++++++");
 		var json = req.body;
 		lib.mergeObjects(json, setDefaultOptions("megam", "account", "/accounts/content", new Accounts(json).toJson) );
-		api.init(json);		
-		api.post().then(function(result) {				
+		api.init(json);
+		api.post().then(function(result) {
 				res.send(result);
 		}).otherwise(function(err) {
 				res.status(500).send(err);
 		});
 	});
+
+	app.post("/workbench", function(req, res) {
+		console.log("+++++++++++++WB+++++++++++++");
+		var json = req.body;
+		console.log(json);
+		lib.mergeObjects(json, setDefaultOptions("megam", "workbenches", "/workbenches/content", new Workbenches(json).toJson) );
+		api.init(json);
+		api.post().then(function(result) {
+				res.send(result);
+		}).otherwise(function(err) {
+				res.status(500).send(err);
+		}); 
+	});
+
 
 	app.get("/mconnect", function(req, res) {
 		res.sendFile(path.resolve(__dirname + '/../public/mconnect.html'));
@@ -94,8 +110,8 @@ function setupUI(settings) {
    		    url: options_url,
    		    body: bodycontent, }
    }
-   
- 
+
+
 
 	return app;
 }
