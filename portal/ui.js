@@ -56,9 +56,11 @@ function setupUI(settings) {
 		if (req.session.password) {
 			res.redirect("/mconnect");
 		} else {
-			res.render('index.html', { message: req.flash('message') });
+			res.render('index.html', {
+				message : req.flash('message')
+			});
 		}
-		//growl('Open a URL', { url: 'https://npmjs.org/package/growl' });		
+		//growl('Open a URL', { url: 'https://npmjs.org/package/growl' });
 	});
 
 	app.post("/signup", function(req, res) {
@@ -76,6 +78,19 @@ function setupUI(settings) {
 			req.flash('message', err)
 			res.redirect("/");
 		});
+	});
+
+	app.post("/workbench", function(req, res) {
+		console.log("+++++++++++++WB+++++++++++++");
+		/*var json = req.body;
+		 console.log(json);
+		 lib.mergeObjects(json, setDefaultOptions("megam", "workbenches", "/workbenches/content", new Workbenches(json).toJson));
+		 api.init(json);
+		 api.post().then(function(result) {
+		 res.send(result);
+		 }).otherwise(function(err) {
+		 res.status(500).send(err);
+		 });*/
 	});
 
 	app.get("/mconnect", function(req, res) {
@@ -105,7 +120,7 @@ function setupUI(settings) {
 		}).otherwise(function(err) {
 			res.status(500).send(err);
 		});
-	});	
+	});
 
 	return app;
 }
