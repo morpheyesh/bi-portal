@@ -24,14 +24,17 @@ var api = module.exports = {
 		case "account":
 		    _mixin = new Accounts(options);
 			break;
+		case "workbenches":
+		    _mixin = new Workbenches(options);
+		  break;
 		default:
 			break;
 
 		}
-	},	
-	
+	},
+
 	toJson : function() {
 		return _mixin.toJson();
 	},
-	
-}; 
+
+};

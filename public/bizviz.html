@@ -2,12 +2,10 @@
 <html>
 
 <head>
-  <title>PORTAL</title>
+  <title>BizViz</title>
 
   <!-- Viewport mobile tag for sensible mobile support -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <!--STYLES
-  <link href="css/bootstrap.min.css" rel="stylesheet" media="screen"> -->
 
   <link rel="stylesheet" type="text/css" href="assets/lib/bootstrap/dist/css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="assets/css/keen-dashboards.css" />
@@ -15,12 +13,9 @@
   <link href="assets/css/simple-sidebar.css" rel="stylesheet">
 
 
-  <link href="css/smoothness/jquery-ui-1.10.3.custom.min.css" rel="stylesheet" media="screen">
   <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
   <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/megam.css">
-  <link rel="stylesheet" href="css/table.css">
-  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->
+
 </head>
 
 <body>
@@ -41,22 +36,7 @@
 
     </div>
   </div>
-  <!--  <form id="edit-profile2" class="form-vertical pull-right">
-    <div class="row">
-      <div class="span6">
-        <div class="widget">
-          <div class="widget-header">
-            <i class="icon-bar-chart"></i>
-            <h3>Chart-1</h3>
-          </div>
-          <div class="widget-content">
-            <canvas id="bar-chart1" class="chart-holder" width="538" height="250"></canvas>
-          </div>
-        </div>
-      </div>
-      </div>
 
-  </form> -->
 
 
   <div id="wrapper">
@@ -70,67 +50,97 @@
       </ul>
     </div>
 
-    <div id="page-content-wrapper">
-      <div class="col-sm-8">
-        <div class="chart-wrapper ">
-          <div class="chart-title">
-            Pageviews by browser (past 24 hours)
-          </div>
-          <div class="chart-stage">
-          <canvas id="bar-chart1" class="chart-holder" width="538" height="250"></canvas>
-          </div>
-          <div class="chart-notes">
-            This is a sample text region to describe this chart.
-          </div>
+    <!--  <div id="page-content-wrapper"> -->
+    <div class="col-sm-6">
+      <div class="chart-wrapper ">
+        <div class="chart-title">
+          chart1
+        </div>
+        <div class="chart-stage">
+          <div id="chart1" style="width: 900px; height: 300px;"></div>
+        </div>
+        <div class="chart-notes">
+          This is a sample text region to describe this chart.
         </div>
       </div>
+    </div>
 
-      <div class="col-sm-4">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Pageviews by browser (past 5 days)
-          </div>
-          <div class="chart-stage">
-            <canvas id="bar-chart2" class="chart-holder" width="538" height="250"></canvas>
+    <div class="col-sm-6 ">
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Chart2
+        </div>
+        <div class="chart-stage">
+          <div id="chart2" style="width: 100px; height: 330px;"></div>
 
-          </div>
-          <div class="chart-notes">
-            Notes go down here
-          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Chart3
+        </div>
+        <div class="chart-stage">
+          <div id="chart3" style="width: 900px; height: 400px;"></div>
+
+        </div>
+        <div class="chart-notes">
+          Notes go down here
         </div>
       </div>
-      <div class="col-sm-4">
-        <div class="chart-wrapper">
-          <div class="chart-title">
-            Pageviews by browser (past 5 days)
-          </div>
-          <div class="chart-stage">
-            <canvas id="bar-chart3" class="chart-holder" width="538" height="250"></canvas>
+    </div>
 
-          </div>
-          <div class="chart-notes">
-            Notes go down here
-          </div>
+
+    <div class="col-sm-6 ">
+      <div class="chart-wrapper ">
+        <div class="chart-title">
+          Chart4
+        </div>
+        <div class="chart-stage">
+          <div id="chart4" style="width: 900px; height: 400px;"></div>
+
+        </div>
+        <div class="chart-notes">
+          This is a sample text region to describe this chart.
         </div>
       </div>
+    </div>
 
 
-      <div class="col-sm-8">
-        <div class="chart-wrapper ">
-          <div class="chart-title">
-            Pageviews by browser (past 24 hours)
-          </div>
-          <div class="chart-stage">
-          <canvas id="bar-chart4" class="chart-holder" width="538" height="250"></canvas>
-          </div>
-          <div class="chart-notes">
-            This is a sample text region to describe this chart.
-          </div>
+    <div class="col-sm-6 ">
+      <div class="chart-wrapper ">
+        <div class="chart-title">
+          Chart4
+        </div>
+        <div class="chart-stage">
+          <div id="chart5" style="width: 900px; height: 400px;"></div>
+
+        </div>
+        <div class="chart-notes">
+          This is a sample text region to describe this chart.
         </div>
       </div>
+    </div>
 
+
+    <div class="col-sm-6 ">
+      <div class="chart-wrapper ">
+        <div class="chart-title">
+          Chart4
+        </div>
+        <div class="chart-stage">
+          <div id="chart6" style="width: 900px; height: 400px;"></div>
+
+        </div>
+        <div class="chart-notes">
+          This is a sample text region to describe this chart.
+        </div>
+      </div>
     </div>
   </div>
+  <!--  </div> -->
 
 
 
@@ -146,15 +156,32 @@
           <h4 class="modal-title">New Dashboard</h4>
         </div>
         <div class="modal-body">
+          <div class="row">
+            <div class="col-md-4">
+              <label for="exampleInputEmail1">Query</label>
+              <input type="text" name="host" id="query">
+            </div>
+            <div class="col-md-4">
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown Example
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" id="modal_select">
+                  <li><a href="#" id="modal_area">Area</a></li>
+                  <li><a href="#" id="modal_pie">Pie</a></li>
+                  <li><a href="#" id="modal_bar">Bar</a></li>
+                  <li><a href="#" id="modal_line">Line</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-4">
 
-          <br/> Query:
-          <input type="text" name="host" id="host">
-          <br/>
-          <button type="button" class="btn btn-default" id="analyze">
-            Analyze
-          </button>
-          <canvas id="canvas" width="568" height="300"></canvas>
-
+              <button type="button" class="btn btn-default" id="analyze">
+                Analyze
+              </button>
+            </div>
+          </div>
+          <div id="modal_chart" style="width: 900px; height: 400px;"></div>
 
           <!-- </form> -->
         </div>
@@ -173,37 +200,10 @@
 
 
   <script src="js/jquery-1.9.0.js"></script>
-  <script src="js/jquery-ui-1.9.2-min.js"></script>
-  <script src="js/jquery.jsPlumb-1.5.3.js"></script>
-  <script src="js/dom.jsPlumb.js"></script>
-
-  <!--<script src="jquery/js/jquery-1.9.1.js"></script>-->
-  <!--  <script src="js/bootstrap.min.js"></script> -->
-  <script src="js/chance.min.js"></script>
-  <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
-  <script src="js/jquery.ui.touch-punch.min.js"></script>
-  <script src="portal/main.js"></script>
-  <script src="portal/nodes.js"></script>
-  <script src="portal/ui/palette.js"></script>
-  <script src="portal/ui/notifications.js"></script>
-  <script src="portal/ui/view.js"></script>
-  <script src="portal/ui/plumb.js"></script>
-  <script src="portal/ui/sidebar.js"></script>
-  <script src="js/d3.v3.min.js"></script>
-
-
-  <script type="text/javascript" src="assets/jquery-1.7.2.min.js"></script>
-  <script type="text/javascript" src="assets/excanvas.min.js"></script>
-  <script type="text/javascript" src="assets/chart.min.js" type="text/javascript"></script>
-  <!-- <script type="text/javascript" src="assets/bootstrap.js"></script> -->
-  <script type="text/javascript" src="assets/base.js"></script>
-  <script src="motel/main.js"></script>
-
+  <!-- Google charts -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   <!-- KEEN dash -->
-
-  <script type="text/javascript" src="assets/lib/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-
   <script type="text/javascript" src="assets/lib/holderjs/holder.js"></script>
   <script>
     Holder.add_theme("white", {
@@ -213,132 +213,144 @@
     });
   </script>
 
-  <script type="text/javascript" src="assets/lib/keen-js/dist/keen.min.js"></script>
-  <script type="text/javascript" src="assets/js/meta.js"></script>
-
   <!--SCRIPTS END-->
 
-  <script>
-    var data = {
-      labels: ["2014", "2013", "2012", "2011", "2010"],
-      datasets: [{
-        fillColor: "rgba(220,220,220,0.5)",
-        strokeColor: "rgba(220,220,220,1)",
-        data: [626, 4, 4, 2, 4]
-      },
-      {
-            label: "My Second dataset",
-            fillColor: "rgba(151,187,205,0.5)",
-            strokeColor: "rgba(151,187,205,0.8)",
-            highlightFill: "rgba(151,187,205,0.75)",
-            highlightStroke: "rgba(151,187,205,1)",
-            data: [28, 48, 40, 19, 86, 27, 90]
-        }]
+  <script type="text/javascript">
+    var chart_selected = '';
+    var chartObjs = {};
+
+    var count = "count";
+    var inc = 0;
+    var ctxs = ["chart1", "chart2", "chart3", "chart4", "chart5", "chart6"];
+    localStorage.setItem(count, inc);
+
+    google.charts.load('current', {
+      'packages': ['corechart']
+    });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+      initModalCharts();
     }
+
+    //init modal charts with dummy data
+    function initModalCharts() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Topping');
+      data.addColumn('number', 'Slices');
+      data.addRows([
+        ['Mushrooms', 1],
+        ['Onions', 4]
+
+      ]);
+
+      // Set chart options
+      var options = {
+        'title': 'How Much Pizza I Ate Last Night',
+        'width': 450,
+        'height': 300
+      };
+
+      var Moptions = {
+        'title': 'How Much Pizza I Ate Last Night',
+        'width': 550,
+        'height': 350
+      };
+
+      chartObjs["BarChart"] = new google.visualization.BarChart(document.getElementById('modal_chart'));
+      chartObjs["PieChart"] = new google.visualization.PieChart(document.getElementById('modal_chart'));
+      chartObjs["AreaChart"] = new google.visualization.AreaChart(document.getElementById('modal_chart'));
+      chartObjs["LineChart"] = new google.visualization.LineChart(document.getElementById('modal_chart'));
+
+      $("#modal_area").click(function() {
+        chart_selected = 'AreaChart'
+        console.log(chart_selected);
+        new google.visualization.AreaChart(document.getElementById('modal_chart')).draw(data, Moptions);
+
+        //  chartObjs[chart_selected].draw(data, options);
+      });
+
+      $("#modal_pie").click(function() {
+        chart_selected = 'PieChart'
+        console.log(chart_selected);
+        new google.visualization.PieChart(document.getElementById('modal_chart')).draw(data, Moptions);
+        //  chartObjs[chart_selected].draw(data, options);
+      });
+
+      $("#modal_bar").click(function() {
+        chart_selected = 'BarChart'
+        console.log(chart_selected);
+        new google.visualization.BarChart(document.getElementById('modal_chart')).draw(data, Moptions);
+
+        //chartObjs[chart_selected].draw(data, options);
+      });
+
+      $("#modal_line").click(function() {
+        chart_selected = 'LineChart'
+        console.log(chart_selected);
+        new google.visualization.LineChart(document.getElementById('modal_chart')).draw(data, Moptions);
+
+        //chartObjs[chart_selected].draw(data, options);
+      });
+
+      $("#analyze").click(function() {
+        data.addRows([ //PENDING - getdata
+          ['YEAH', 1]
+        ]);
+        console.log(chart_selected);
+        chartObjs[chart_selected].draw(data, options);
+      });
+
+      $("#save").click(function() {
+        var no = check();
+        var id = ctxs[no];
+        var cs = getChartObject(chart_selected, id);
+        cs.draw(data, options);
+        //call getquerydata
+      });
+    }
+
+    function getChartObject(c, id) {
+
+      switch (c) {
+        case 'AreaChart':
+          return new google.visualization.AreaChart(document.getElementById(id));
+          break;
+        case 'PieChart':
+          return new google.visualization.PieChart(document.getElementById(id));
+          break;
+        case 'BarChart':
+          return new google.visualization.BarChart(document.getElementById(id));
+          break;
+        case 'LineChart':
+          return new google.visualization.LineChart(document.getElementById(id));
+          break;
+      }
+
+    };
 
     function getQueryData() {
       //ajax call here
       //find range of the the x and y axis
       return [66, 33, 4411, 77]
     };
-    var count = "count";
-    var inc = 1;
-var ctxs = ["bar-chart1", "bar-chart2", "bar-chart3", "bar-chart4"];
-localStorage.setItem(count, inc);
-//sessionStorage.setItem("count", 1);
 
 
-
-function check() {
-  //if goes exceeds more than 4, reset it to 1
-  var c =  localStorage.getItem(count);
-  var cnt = parseInt(c);
-
-
-  if (c != 4) {
-    cnt++;
-    localStorage.setItem(count, cnt)
-    return c
-  }
-  else if (c == 4) {
-    localStorage.setItem(count, 1)
-    return c
-  }
-
-}
-
-
-
-    $('#exampleModal').on('show.bs.modal', function(event) {
-
-      var button = $(event.relatedTarget);
-      var modal = $(this);
-      var canvas = modal.find('.modal-body canvas');
-
-      $("#analyze").click(function() {
-        var ct = check();
-        console.log("================================");
-        console.log(ct);
-        data.datasets[0].data = getQueryData();
-        console.log(ctxs[ct]);
-        var myNewChart = new Chart(ctxs[ct]);
-        myNewChart.Line(data);
-      });
-
-      
-      $("#save").click(function() {
-        //  data.datasets[0].data = getQueryData();
-        var ctx = document.getElementById("bar-chart1").getContext("2d");
-
-        var myNewChart = new Chart(ctx);
-        myNewChart.Line(data);
-
-      /*  var ctx = document.getElementById("bar-chart2").getContext("2d");
-
-        var myNewChart = new Chart(ctx);
-        myNewChart.Radar(data);
-
-        var ctx = document.getElementById("bar-chart4").getContext("2d");
-
-        var myNewChart = new Chart(ctx);
-        myNewChart.Bar(data); */
-      });
-
-
-      var ctx = canvas[0].getContext("2d");
-      var optionsNoAnimation = {
-        animation: false
+    function check() {
+      //if goes exceeds more than 4, reset it to 1
+      var c = localStorage.getItem(count);
+      var cnt = parseInt(c);
+      if (c != 5) {
+        cnt++;
+        localStorage.setItem(count, cnt)
+        return c
+      } else if (c == 5) {
+        localStorage.setItem(count, 0)
+        return c
       }
-      var myNewChart = new Chart(ctx);
-      myNewChart.Line(data);
-      // Chart initialisieren
-      /*  var ctx = canvas[0].getContext("2d");
-        var chart = new Chart(ctx).Line({
-            labels: ["January", "February", "March", "April", "May", "June", "July"],
-            datasets: [
-                {
-                    fillColor: "rgba(190,144,212,0.2)",
-                    strokeColor: "rgba(190,144,212,1)",
-                    pointColor: "rgba(190,144,212,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: data
-                },
-                {
-                    fillColor: "rgba(151,187,205,0.2)",
-                    strokeColor: "rgba(151,187,205,1)",
-                    pointColor: "rgba(151,187,205,1)",
-                    pointStrokeColor: "#fff",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(151,187,205,1)",
-                    data: [3,66,111,44,99]
-                }
-            ]
-        }, {}); */
-    });
+    };
   </script>
-
 </body>
 
 </html>
