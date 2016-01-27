@@ -62,6 +62,22 @@ function setupUI(settings) {
 		}
 		//growl('Open a URL', { url: 'https://npmjs.org/package/growl' });
 	});
+	
+	app.post("/signin", function(req, res) {
+		var json = req.body;
+		var acc = new Accounts(json.email, json.password);
+		util.log('[portal] User signin with this email > ' + json.email);
+		acc.login(json).then(function(result) {
+			util.log('[portal] User login successfully');
+			req.session.email = json.email;
+			req.session.password = json.password;
+			res.redirect("/mconnect");
+		}).otherwise(function(err) {
+			util.log('[portal] Error occured > ' + err);
+			req.flash('message', err)
+			res.redirect("/");
+		})
+	})
 
 	app.post("/signup", function(req, res) {
 		var json = req.body;
@@ -81,7 +97,6 @@ function setupUI(settings) {
 	});
 
 	app.post("/workbench", function(req, res) {
-		console.log("+++++++++++++WB+++++++++++++");
 		/*var json = req.body;
 		 console.log(json);
 		 lib.mergeObjects(json, setDefaultOptions("megam", "workbenches", "/workbenches/content", new Workbenches(json).toJson));
