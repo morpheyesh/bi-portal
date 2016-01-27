@@ -34,60 +34,77 @@ var growl = require('growl')
 
 function setupUI(settings) {
 
-  var iconCache = {};
-  var defaultIcon = path.resolve(__dirname + '/../public/icons/arrow-in.png');
-  //app.use("/", express.static(__dirname + '/../public'));
 
-  app.use(bodyParser.json());
+	var iconCache = {};
+	var defaultIcon = path.resolve(__dirname + '/../public/icons/arrow-in.png');
+	//app.use("/", express.static(__dirname + '/../public'));
 
-  app.use(bodyParser.urlencoded({
-    extended: true
-  }));
+	app.use(bodyParser.json());
 
-  app.use(session({
-    secret: 'MEGAMMEGLYTICS'
-  }));
+	app.use(bodyParser.urlencoded({
+		extended : true
+	}));
 
-  app.use(express.static(path.join(__dirname, '/../public')));
-  app.set('views', __dirname + '/../views');
-  app.engine('html', require('ejs').renderFile);
+	app.use(session({
+		secret : 'MEGAMMEGLYTICS'
+	}));
 
-  app.use(flash());
+	app.use(express.static(path.join(__dirname, '/../public')));
+	app.set('views', __dirname + '/../views');
+	app.engine('html', require('ejs').renderFile);
 
-  app.get("/", function(req, res) {
-    util.log('[portal] Loading index page ');
-    if (req.session.password) {
-      res.redirect("/mconnect");
-    } else {
-      res.render('index.html', {
-        message: req.flash('message')
-      });
-    }
-    //growl('Open a URL', { url: 'https://npmjs.org/package/growl' });
-  });
+	app.use(flash());
 
-  app.post("/signup", function(req, res) {
-    var json = req.body;
-    var acc = new Accounts(json.email, json.password);
-    util.log('[portal] User sigunup with this email > ' + json.email);
-    acc.create(json).then(function(result) {
-      util.log('[portal] User onboard successfully');
-      req.session.email = json.email;
-      req.session.password = json.password;
-      //growl('Open a URL', { url: 'https://npmjs.org/package/growl' });
-      res.redirect("/mconnect");
-    }).otherwise(function(err) {
-      util.log('[portal] Error occured > ' + err);
-      req.flash('message', err)
-      res.redirect("/");
-    });
-  });
+	app.get("/", function(req, res) {
+		util.log('[portal] Loading index page ');
+		if (req.session.password) {
+			res.redirect("/mconnect");
+		} else {
+			res.render('index.html', {
+				message : req.flash('message')
+			});
+		}
+		//growl('Open a URL', { url: 'https://npmjs.org/package/growl' });
+	});
 
-  app.post("/workbench", function(req, res) {
+	app.post("/signin", function(req, res) {
+		var json = req.body;
+		var acc = new Accounts(json.email, json.password);
+		util.log('[portal] User signin with this email > ' + json.email);
+		acc.login(json).then(function(result) {
+			util.log('[portal] User login successfully');
+			req.session.email = json.email;
+			req.session.password = json.password;
+			res.redirect("/mconnect");
+		}).otherwise(function(err) {
+			util.log('[portal] Error occured > ' + err);
+			req.flash('message', err)
+			res.redirect("/");
+		})
+	})
+
+	app.post("/signup", function(req, res) {
+		var json = req.body;
+		var acc = new Accounts(json.email, json.password);
+		util.log('[portal] User sigunup with this email > ' + json.email);
+		acc.create(json).then(function(result) {
+			util.log('[portal] User onboard successfully');
+			req.session.email = json.email;
+			req.session.password = json.password;
+			//growl('Open a URL', { url: 'https://npmjs.org/package/growl' });
+			res.redirect("/mconnect");
+		}).otherwise(function(err) {
+			util.log('[portal] Error occured > ' + err);
+			req.flash('message', err)
+			res.redirect("/");
+		});
+	});
+
+	app.post("/workbench", function(req, res) {
     console.log("+++++++++++++WB+++++++++++++");
     	var json = req.body;
     	 console.log(json);
-			var acc = new Workbench(json.email, json.password);
+	/*		var acc = new Workbench(json.email, json.password);
 	    util.log('[portal] User sigunup with this email > ' + json.email);
 	    acc.create(json).then(function(result) {
 	      util.log('[portal] User onboard successfully');
@@ -100,18 +117,18 @@ function setupUI(settings) {
 	      req.flash('message', err)
 	      res.redirect("/");
 	    });
-    });
-/*
+    }); */
+
 
    var obj = {
       "data": [
         ["Year", "2015", "2011", "2055"],
-        ["Product", 11, 55, 88] , ["Popularity", 899, 100, 858]
+        ["Product", 11, 55, 88], ["Popularity", 899, 100, 858]
       ]
     };
 
 
-		var obj = {
+	/*	var obj = {
 		      "data": [
 		        ["Product", "Car", "Fan", "Book"],
 		        ["Cost", 11, 55, 88]
@@ -123,60 +140,44 @@ function setupUI(settings) {
 				        ["Country", "Germany", "United States", "Brazil", "RU"],
 				        ["Deals", 400, 300, 150, 500]
 				      ]
-				    };
+				    }; */
     var arr = [];
     for (elem in obj['data']) {
       arr.push(obj['data'][elem]);
     }
-    res.send(arr) */
+    res.send(arr)
   });
 
-  app.get("/mconnect", function(req, res) {
-    if (req.session.password) {
-      res.render('mconnect.html');
-    } else {
-      res.redirect('/');
-    }
-  });
+	app.get("/mconnect", function(req, res) {
+		if (req.session.password) {
+			res.render('mconnect.html');
+		} else {
+			res.redirect('/');
+		}
+	});
 
-  app.get("/report", function(req, res) {
+	app.get("/bizviz", function(req, res) {
+		if (req.session.password) {
+			res.render('bizviz.html');
+		} else {
+			res.redirect('/');
+		}
+	});
 
-    htmlToPdf.convertHTMLFile('views/bizviz.html', 'views/report.pdf',
-      function(error, success) {
-        if (error) {
-          console.log('Oh noes! Errorz!');
-          console.log(error);
-        } else {
-          console.log('Woot! Success!');
-          console.log(success);
-        }
-      }
-    );
+	app.post("/connectors", function(req, res) {
+		connectors.init(req.body);
+		connectors.getConnection().then(function(connection) {
+			connectors.getData(connection).then(function(result) {
+				res.send(result);
+			}).otherwise(function(err) {
+				res.status(500).send(err);
+			});
+		}).otherwise(function(err) {
+			res.status(500).send(err);
+		});
+	});
 
-  });
-
-  app.get("/bizviz", function(req, res) {
-    if (req.session.password) {
-      res.render('bizviz.html');
-    } else {
-      res.redirect('/');
-    }
-  });
-
-  app.post("/connectors", function(req, res) {
-    connectors.init(req.body);
-    connectors.getConnection().then(function(connection) {
-      connectors.getData(connection).then(function(result) {
-        res.send(result);
-      }).otherwise(function(err) {
-        res.status(500).send(err);
-      });
-    }).otherwise(function(err) {
-      res.status(500).send(err);
-    });
-  });
-
-  return app;
+	return app;
 }
 
 module.exports = setupUI;
