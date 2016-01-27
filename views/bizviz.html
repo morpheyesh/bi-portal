@@ -217,6 +217,9 @@
                                       <li>
                                         <a href="#" id="modal_column">Column</a>
                                       </li>
+                                      <li>
+                                        <a href="#" id="modal_table">Table</a>
+                                      </li>
                                     </ul>
                                   </div>
                                 </div>
@@ -305,7 +308,7 @@
                         <div class="chart-title">
                           Chart-2
                         </div>
-                        <div id="chart2" style="width: 100px; height: 330px;"></div>
+                        <div id="chart2" style="width: 500px; height: 330px;"></div>
                       </div>
                     </div>
 
@@ -315,7 +318,7 @@
                           Chart-3
                         </div>
                         <div class="chart-stage">
-                          <div id="chart3" style="width: 100px; height: 330px;"></div>
+                          <div id="chart3" style="width: 500px; height: 330px;"></div>
                         </div>
                       </div>
                     </div>
@@ -326,7 +329,7 @@
                           Chart-4
                         </div>
                         <div class="chart-stage">
-                          <div id="chart4" style="width: 100px; height: 330px;"></div>
+                          <div id="chart4" style="width: 500px; height: 330px;"></div>
                         </div>
                       </div>
                     </div>
@@ -354,7 +357,6 @@
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>
@@ -376,164 +378,7 @@
   <script src="js/jquery-2.2.0.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/bootstrap-filestyle.js"></script>
-  <script type="text/javascript">
-    var pageImages = [];
-    var pageNum = 1;
-    /**
-     * Reset numbering on tab buttons
-     */
-    function reNumberPages() {
-      pageNum = 1;
-      var tabCount = $('#pageTab > li').length;
-      $('#pageTab > li').each(function() {
-        var pageId = $(this).children('a').attr('href');
-        if (pageId == "#page1") {
-          return true;
-        }
-        pageNum++;
-        $(this).children('a').html('New Connect ' + pageNum + '<button class="close" type="button" ' + 'title="Remove this New Connect">×</button>');
-      });
-    }
 
-
-    $(document).ready(function() {
-      /**
-       * Add a Tab
-       */
-      $('#btnAddPage').click(function() {
-        pageNum++;
-        $('#pageTab').append($('<li><a href="#page' + pageNum + '">' + 'New Connect ' + pageNum + '<button class="close" type="button" ' + 'title="Remove this New Connect">×</button>' + '</a></li>'));
-
-        $('#pageTabContent').append($('<div class="tab-pane" id="page' + pageNum + '">Content page' + pageNum + '</div>'));
-
-        $('#page' + pageNum).tab('show');
-        reAdjust();
-      });
-
-      /**
-       * Remove a Tab
-       */
-      $('#pageTab').on('click', ' li a .close', function() {
-        var tabId = $(this).parents('li').children('a').attr('href');
-        $(this).parents('li').remove('li');
-        $(tabId).remove();
-        reNumberPages();
-        $('#pageTab a:first').tab('show');
-      });
-
-      /**
-       * Click Tab to show its content
-       */
-      $("#pageTab").on("click", "a", function(e) {
-        e.preventDefault();
-        $(this).tab('show');
-      });
-    });
-  </script>
-  <script>
-    var hidWidth;
-    var scrollBarWidths = 40;
-
-    var widthOfList = function() {
-      var itemsWidth = 0;
-      $('.list li').each(function() {
-        var itemWidth = $(this).outerWidth();
-        itemsWidth += itemWidth;
-      });
-      return itemsWidth;
-    };
-
-    var widthOfHidden = function() {
-      return (($('.wrapper').outerWidth()) - widthOfList() - getLeftPosi()) - scrollBarWidths;
-    };
-
-    var getLeftPosi = function() {
-      return $('.list').position().left;
-    };
-
-    var reAdjust = function() {
-      if (($('.wrapper').outerWidth()) < widthOfList()) {
-        $('.scroller-right').show();
-      } else {
-        $('.scroller-right').hide();
-      }
-
-      if (getLeftPosi() < 0) {
-        $('.scroller-left').show();
-      } else {
-        $('.item').animate({
-          left: "-=" + getLeftPosi() + "px"
-        }, 'slow');
-        $('.scroller-left').hide();
-      }
-    }
-    reAdjust();
-
-    $(window).on('resize', function(e) {
-      reAdjust();
-    });
-
-    $('.scroller-right').click(function() {
-
-      $('.scroller-left').fadeIn('slow');
-      $('.scroller-right').fadeOut('slow');
-
-      $('.list').animate({
-        left: "+=" + widthOfHidden() + "px"
-      }, 'slow', function() {
-
-      });
-    });
-
-    $('.scroller-left').click(function() {
-
-      $('.scroller-right').fadeIn('slow');
-      $('.scroller-left').fadeOut('slow');
-
-      $('.list').animate({
-        left: "-=" + getLeftPosi() + "px"
-      }, 'slow', function() {
-
-      });
-    });
-
-    $(document).ready(function() {
-      $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
-        e.preventDefault();
-        $(this).siblings('a.active').removeClass("active");
-        $(this).addClass("active");
-        var index = $(this).index();
-        $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
-        $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
-      });
-    });
-
-    $('#input03').filestyle({
-      input: false,
-      buttonName: 'btn-primary'
-    });
-  </script>
-
-  <script>
-    $(function() {
-
-      var $contextMenu = $("#contextMenu");
-
-      $("body").on("contextmenu", ".list-group a", function(e) {
-        $contextMenu.css({
-          display: "block",
-          left: e.pageX,
-          top: e.pageY
-        });
-        return false;
-      });
-
-      $contextMenu.on("click", "a", function() {
-        $contextMenu.hide();
-      });
-
-    });
-  </script>
 
   <!-- END PAGE LEVEL SCRIPTS -->
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -563,7 +408,7 @@
     localStorage.setItem(count, inc);
 
     google.charts.load('current', {
-      'packages': ['corechart']
+      'packages': ['corechart', 'table']
     });
     google.charts.setOnLoadCallback(drawChart);
 
@@ -610,6 +455,9 @@
       chartObjs["LineChart"] = new google.visualization.LineChart(document.getElementById('modal_chart'));
       chartObjs["GeoChart"] = new google.visualization.GeoChart(document.getElementById('modal_chart'));
       chartObjs["ColumnChart"] = new google.visualization.ColumnChart(document.getElementById('modal_chart'));
+      chartObjs["Table"] = new google.visualization.Table(document.getElementById('modal_chart'));
+
+
 
       $("#modal_area").click(function() {
         chart_selected = 'AreaChart'
@@ -652,6 +500,13 @@
         //chartObjs[chart_selected].draw(data, options);
       });
 
+      $("#modal_table").click(function() {
+        chart_selected = 'Table'
+        new google.visualization.Table(document.getElementById('modal_chart')).draw(data, options);
+
+        //  chartObjs[chart_selected].draw(data, options);
+      });
+
 
       $("#analyze").click(function() {
         query = $("#query").val();
@@ -665,8 +520,11 @@
         var no = check();
         var id = ctxs[no];
 
+
         var cs = getChartObject(chart_selected, id);
-        cs.draw(ndata, options);
+
+          cs.draw(ndata, options);
+
       });
     }
 
@@ -691,6 +549,9 @@
         case 'ColumnChart':
           return new google.visualization.ColumnChart(document.getElementById(id));
           break;
+          case 'Table':
+            return new google.visualization.Table(document.getElementById(id));
+            break;
       }
 
     };

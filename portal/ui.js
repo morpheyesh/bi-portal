@@ -123,7 +123,8 @@ function setupUI(settings) {
    var obj = {
       "data": [
         ["Year", "2015", "2011", "2055"],
-        ["Product", 11, 55, 88], ["Popularity", 899, 100, 858]
+        ["Product", 11, 55, 88],
+			  ["Popularity", 899, 100, 858]
       ]
     };
 
