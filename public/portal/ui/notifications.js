@@ -55,6 +55,6 @@ PORTAL.notify = function() {
         currentNotifications.push(n);
         c+=1;
         return n;
-    }
+    };
 }();
 

@@ -204,7 +204,7 @@ a.brand img {
     -moz-box-sizing: border-box;    
 }
 .palette-spinner {
-    padding-top: 40px;
+    padding-top: 10px;
 }
 #palette-search {
     position: absolute;

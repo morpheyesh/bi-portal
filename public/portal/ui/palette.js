@@ -17,17 +17,17 @@
 PORTAL.palette = function() {  
   
     
-    function createList(def){
-    	
+    function createList(def){    	
     	//$("#paletteList").append('<li><a href="#">'+cat.name+'</a></li>');
     	  nt = def.name;
-    	  var d = document.createElement("div");
+    	  var d = document.createElement("tr");
           d.id = "pn_"+def.name;
           d.type = def.name;
           d.schemas = def.schemas;
           
-          d.innerHTML = '<a href="#">'+def.name+'</a>';
-          d.className="palette_node";            
+          //d.innerHTML = '<a href="#">'+def.name+'</a>';
+          d.innerHTML = '<td class="schema_td">'+def.name+'</td>';
+          d.className="schema_node";            
           
           $("#palette-container").append(d);
           d.onmousedown = function(e) { e.preventDefault(); }
@@ -49,7 +49,7 @@ PORTAL.palette = function() {
               revertDuration: 50
           });       
           
-          
+          $("#table_disable").hide();
     }
     
     function addNodeType(def) {
