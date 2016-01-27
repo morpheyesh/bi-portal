@@ -29,7 +29,7 @@ PORTAL.plumb = function() {
 				Endpoints : [["Dot", {
 					radius : 2
 				}], ["Dot", {
-					radius : 5
+					radius : 3
 				}]],
 				Anchor : "Continuous",
 				HoverPaintStyle : {

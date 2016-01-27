@@ -40,30 +40,4 @@ table#meg tbody tr:not(:last-child) {
 
 
 
-  .window { 
-            background-color: #EEEEEF;
-            border: 1px solid #346789;
-            border-radius: 0.5em;
-            box-shadow: 2px 2px 5px #AAAAAA;
-            color: black;
-            height: 5em;
-            position: absolute;
-            width: 5em;
-        }
-
-        .window:hover { 
-            box-shadow: 2px 2px 19px #AAAAAA;
-            cursor: pointer;
-        }
-
-
-        .button_add, .button_add_window, .button_remove, .button {
-            background-color: deepskyblue;
-            text-align: center;
-            border: 1px solid;
-        }
-
-        .button_container {
-            margin: 5px;
-            background-color: #aaaaaa
-        }
+  

@@ -21,7 +21,8 @@ PORTAL.view = function() {
 	var activeWorkspace = 0;
 
 	$("#connector_submit").click(function() {
-		$("#myModal").modal('hide');
+		console.log("=========================");
+		$("#myModalHorizontal").modal('hide');
 		//PORTAL.notify("Saved nodes","success");
 		var json = {};
 		json["connector"] = $("#connector").val();
@@ -29,7 +30,8 @@ PORTAL.view = function() {
 		json["host"] = $("#host").val();
 		json["username"] = $("#username").val();
 		json["password"] = $("#password").val();
-
+        console.log("=========================");
+        console.log(json);
 		$.ajax({
 			url : "/connectors",
 			type : "POST",
