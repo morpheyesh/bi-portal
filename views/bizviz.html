@@ -44,6 +44,9 @@
         <li class="sidebar-brand">
           <a data-toggle="modal" data-target="#exampleModal">New Dashboard</a>
         </li>
+        <li class="sidebar-brand">
+          <a data-toggle="modal" id="report">Report</a>
+        </li>
       </ul>
     </div>
 
@@ -222,9 +225,12 @@
   <!--SCRIPTS END-->
 
   <script type="text/javascript">
+    localStorage.setItem("workbench", "fooWorkbench") //NOTE: THIS WILL BE REMOVED AND WORKBENCH WILL BE STORED IN MCONNECT
     var chart_selected = '';
     var chartObjs = {};
     var ndata = '';
+    var query = '';
+    var wb = localStorage.getItem("workbench");
 
     var count = "count";
     var inc = 0;
@@ -249,42 +255,28 @@
     }
     //init modal charts with dummy data
     function initModalCharts() {
-      var data = [
+      var init_data = [
         ['Year', '2014', '2015', '2014', '2013'],
         ['Expenses', 800, 600, 400, 110],
         ['Sales', 100, 1170, 555, 1123]
       ];
 
-      var dataa = transpose(data);
-      console.log(data);
-      console.log(dataa);
-      /*  var data = google.visualization.arrayToDataTable([
-              ['Year', 'Sales', 'Expenses'],
-              ['2013',  1000,      400],
-              ['2014',  1170,      460],
-              ['2015',  660,       1120],
-              ['2015',  660,       1120],
-              ['2017',  660,       1120],
-              ['2018',  660,       1120],
-              ['2019',  660,       1120],
-              ['2020',  660,       1120],
-              ['2016',  1030,      540]
-            ]); */
-      var data = google.visualization.arrayToDataTable(dataa);
+      var t_data = transpose(init_data);
 
+      var data = google.visualization.arrayToDataTable(t_data);
+      //  var ndata = '';
       // Set chart options
-      var options = {
-        'title': 'How Much Line chart willi draw?',
-        'width': 450,
-        'height': 300
-      };
+      /*  var options = {
+          'title': 'How Much Line chart willi draw?',
+          'width': 450,
+          'height': 300
+        }; */
 
-      var Moptions = {
-        'title': 'How Much Pizza I Ate Last Night',
-        'width': 550,
+      var options = {
+        'title': 'MeglyticsBI',
+        'width': 475,
         'height': 350
       };
-
 
 
       chartObjs["BarChart"] = new google.visualization.BarChart(document.getElementById('modal_chart'));
@@ -296,70 +288,57 @@
 
       $("#modal_area").click(function() {
         chart_selected = 'AreaChart'
-        console.log(chart_selected);
-        new google.visualization.AreaChart(document.getElementById('modal_chart')).draw(data, Moptions);
+        new google.visualization.AreaChart(document.getElementById('modal_chart')).draw(data, options);
 
         //  chartObjs[chart_selected].draw(data, options);
       });
 
       $("#modal_pie").click(function() {
         chart_selected = 'PieChart'
-        console.log(chart_selected);
-        new google.visualization.PieChart(document.getElementById('modal_chart')).draw(data, Moptions);
+        new google.visualization.PieChart(document.getElementById('modal_chart')).draw(data, options);
         //  chartObjs[chart_selected].draw(data, options);
       });
 
       $("#modal_bar").click(function() {
         chart_selected = 'BarChart'
-        console.log(chart_selected);
-        new google.visualization.BarChart(document.getElementById('modal_chart')).draw(data, Moptions);
+        new google.visualization.BarChart(document.getElementById('modal_chart')).draw(data, options);
 
         //chartObjs[chart_selected].draw(data, options);
       });
 
       $("#modal_line").click(function() {
         chart_selected = 'LineChart'
-        console.log(chart_selected);
-        new google.visualization.LineChart(document.getElementById('modal_chart')).draw(data, Moptions);
+        new google.visualization.LineChart(document.getElementById('modal_chart')).draw(data, options);
 
         //chartObjs[chart_selected].draw(data, options);
       });
 
       $("#modal_geo").click(function() {
         chart_selected = 'GeoChart'
-        console.log(chart_selected);
-        new google.visualization.GeoChart(document.getElementById('modal_chart')).draw(data, Moptions);
+        new google.visualization.GeoChart(document.getElementById('modal_chart')).draw(data, options);
 
         //chartObjs[chart_selected].draw(data, options);
       });
 
       $("#modal_column").click(function() {
         chart_selected = 'ColumnChart'
-        console.log(chart_selected);
-        new google.visualization.ColumnChart(document.getElementById('modal_chart')).draw(data, Moptions);
+        new google.visualization.ColumnChart(document.getElementById('modal_chart')).draw(data, options);
 
         //chartObjs[chart_selected].draw(data, options);
       });
 
+
       $("#analyze").click(function() {
+        query = $("#query").val();
+        var d = getQueryData(query);
 
-        var d = getQueryData();
-        var ndata = new google.visualization.arrayToDataTable(d);
-
-        console.log("_--------------------------");
-        console.log(ndata);
-        console.log("_--------------------------");
-
-
+        ndata = new google.visualization.arrayToDataTable(d);
         chartObjs[chart_selected].draw(ndata, options);
       });
 
-      $("#save").click(function(ndata) {
+      $("#save").click(function() {
         var no = check();
         var id = ctxs[no];
-        console.log("_--------------------------");
-        console.log(ndata);
-        console.log("_--------------------------");
 
         var cs = getChartObject(chart_selected, id);
         cs.draw(ndata, options);
@@ -391,11 +370,27 @@
 
     };
 
-    function getQueryData() {
-      //ajax call here
-       //call transpose()
-       //return it
-        return [66, 33, 4411, 77]
+    function getQueryData(query) {
+
+      var dd = [];
+
+      $.ajax({
+        type: 'POST',
+        url: '/workbench',
+        async: false,
+        data: {
+          "query": query,
+           "email": "tset",
+           "password": "pass",
+        },
+        dataType: "json",
+        success: function(data) {
+          dd = data;
+        }
+      });
+
+      return transpose(dd)
+
     };
 
     function check() {
@@ -411,6 +406,14 @@
         return c
       }
     };
+
+    $("#report").click(function() {
+      $.ajax({
+        type: 'GET',
+        url: '/report',
+        async: false,
+      });
+    });
   </script>
 </body>
 
