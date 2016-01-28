@@ -22,18 +22,16 @@ var bodyParser = require('body-parser');
 var events = require("./events");
 var connectors = require("./connectors/connector")
 var Accounts = require("./../lib/megam/core/accounts.js");
+var Workbenches = require("./../lib/megam/core/workbenches.js");
 var lib = require("./lib.js");
 var path = require("path");
 var flash = require('connect-flash');
 var icon_paths = [path.resolve(__dirname + '/../public/icons')];
 var htmlToPdf = require('html-to-pdf');
 
-
-
 var growl = require('growl')
 
 function setupUI(settings) {
-
 
 	var iconCache = {};
 	var defaultIcon = path.resolve(__dirname + '/../public/icons/arrow-in.png');
@@ -100,54 +98,67 @@ function setupUI(settings) {
 		});
 	});
 
+	app.post("/workbenches/content", function(req, res) {
+		if (req.session.password) {
+			var json = req.body;
+			var wkb = new Workbenches(req.session.email, req.session.password);
+			util.log('[portal] User email > ' + json.email);
+			wkb.create(json).then(function(result) {
+				util.log('[portal] workbenches stored successfully');				
+				res.send(200);
+			}).otherwise(function(err) {
+				util.log('[portal] Error occured > ' + err);
+				res.send(500, err);
+			});
+		} else {
+			res.render('index.html', {
+				message : req.flash('message')
+			});
+		}
+	});
+
 	app.post("/workbench", function(req, res) {
-    console.log("+++++++++++++WB+++++++++++++");
-    	var json = req.body;
-    	 console.log(json);
-	/*		var acc = new Workbench(json.email, json.password);
-	    util.log('[portal] User sigunup with this email > ' + json.email);
-	    acc.create(json).then(function(result) {
-	      util.log('[portal] User onboard successfully');
-	      req.session.email = json.email;
-	      req.session.password = json.password;
-	      //growl('Open a URL', { url: 'https://npmjs.org/package/growl' });
-	      res.redirect("/mconnect");
-	    }).otherwise(function(err) {
-	      util.log('[portal] Error occured > ' + err);
-	      req.flash('message', err)
-	      res.redirect("/");
-	    });
-    }); */
+		console.log("+++++++++++++WB+++++++++++++");
+		var json = req.body;
+		console.log(json);
+		/*		var acc = new Workbench(json.email, json.password);
+		 util.log('[portal] User sigunup with this email > ' + json.email);
+		 acc.create(json).then(function(result) {
+		 util.log('[portal] User onboard successfully');
+		 req.session.email = json.email;
+		 req.session.password = json.password;
+		 //growl('Open a URL', { url: 'https://npmjs.org/package/growl' });
+		 res.redirect("/mconnect");
+		 }).otherwise(function(err) {
+		 util.log('[portal] Error occured > ' + err);
+		 req.flash('message', err)
+		 res.redirect("/");
+		 });
+		 }); */
 
+		var obj = {
+			"data" : [["Year", "2015", "2011", "2055"], ["Product", 11, 55, 88], ["Popularity", 899, 100, 858]]
+		};
 
-   var obj = {
-      "data": [
-        ["Year", "2015", "2011", "2055"],
-        ["Product", 11, 55, 88],
-			  ["Popularity", 899, 100, 858]
-      ]
-    };
+		/*	var obj = {
+		 "data": [
+		 ["Product", "Car", "Fan", "Book"],
+		 ["Cost", 11, 55, 88]
+		 ]
+		 };
 
-
-	/*	var obj = {
-		      "data": [
-		        ["Product", "Car", "Fan", "Book"],
-		        ["Cost", 11, 55, 88]
-		      ]
-		    };
-
-				var obj = {
-				      "data": [
-				        ["Country", "Germany", "United States", "Brazil", "RU"],
-				        ["Deals", 400, 300, 150, 500]
-				      ]
-				    }; */
-    var arr = [];
-    for (elem in obj['data']) {
-      arr.push(obj['data'][elem]);
-    }
-    res.send(arr)
-  });
+		 var obj = {
+		 "data": [
+		 ["Country", "Germany", "United States", "Brazil", "RU"],
+		 ["Deals", 400, 300, 150, 500]
+		 ]
+		 }; */
+		var arr = [];
+		for (elem in obj['data']) {
+			arr.push(obj['data'][elem]);
+		}
+		res.send(arr)
+	});
 
 	app.get("/mconnect", function(req, res) {
 		if (req.session.password) {

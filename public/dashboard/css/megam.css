@@ -8,7 +8,7 @@
     padding-bottom: 10px;
 }
 
-.schema_td {  
+.schema_td {
     padding-top: 10px;
     padding-bottom: 10px;
 }
@@ -19,13 +19,11 @@
 
 .window {
     background-color: #ffffff;
-    border: 1px solid ;
-    #border-radius: 0.5em;
+    border: 1px solid;#border-radius: 0.5em;
     #box-shadow: 2px 2px 5px #AAAAAA;
     #color: black;
     #height: 5em;
-    position: absolute;
-    #width: 5em;
+    position: absolute;#width: 5em;
 }
 
 .window:hover {
@@ -33,12 +31,10 @@
     cursor: pointer;
 }
 
-.button_add, .button_add_window, .button_remove, .button {
-    #background-color: deepskyblue;
-    text-align: center;
+.button_add {#text-align: center;
     border-radius: 0.5em;
     border: 1px solid;
-    font-size: 12px; 
+    font-size: 12px;
     color: #000000;
     padding-right: 10px;
     padding-left: 10px;
@@ -55,8 +51,7 @@
 }
 
 .button_container {
-    margin: 3px;
-    #background-color: #aaaaaa
+    margin: 3px;#background-color: #aaaaaa
 }
 
 .notification {
@@ -75,5 +70,45 @@
     margin-bottom: 5px;
 }
 
+.palette-scroll {
+    display: none;
+    position: absolute;
+    top: 100px;
+    left: 0;
+    right: 0;
+    bottom: 35px;
+    padding: 5px;
+    overflow-y: auto;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
 
+.label-primary {
+    background-color: #6F5F95;
+}
+
+.nav-logout {
+    margin-top: 10px;
+}
+
+.navbar-header {
+    margin-left: 0px;
+    padding-bottom: 15px;
+}
+
+/* checked mark aspect */
+input[type="checkbox"]:not(:checked) +
+label:after, input[type="checkbox"]:checked + label:after {
+    content: '✔';
+    position: absolute;
+    top: 0;
+    left: 7px;
+    font-size: 28px;
+    color: #716096;
+    transition: all .2s;
+    -webkit-transition: all .2s;
+    -moz-transition: all .2s;
+    -ms-transition: all .2s;
+    -o-transition: all .2s;
+}
 
