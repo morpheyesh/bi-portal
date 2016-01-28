@@ -112,3 +112,7 @@ label:after, input[type="checkbox"]:checked + label:after {
     -o-transition: all .2s;
 }
 
+.disabled {
+   pointer-events: none;
+   cursor: default;
+}

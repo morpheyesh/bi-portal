@@ -26,6 +26,7 @@ PORTAL.nodes = function() {
 	var workspaces = {};
 	var sources = [];
 	var obj = JSON.parse("{}");
+	var currentWKB = "";
 	
 	function addSource(s) {
 		sources.push(s);
@@ -87,9 +88,13 @@ PORTAL.nodes = function() {
 			};
 	}
 	
-	function createExportableNodeSet(node) {
-		
+	function registerWKB(name) {
+		currentWKB = name;
 	}	
+	
+	function getCurrentWKB() {
+		return currentWKB;
+	}
 
 	return {
 		registerType : registerType,
@@ -97,6 +102,8 @@ PORTAL.nodes = function() {
 		add : addNode,
 		addSource : addSource,
 		getSources : getSources,
-		getExportNodes : getExportNodes
+		getExportNodes : getExportNodes,
+		registerWKB : registerWKB,
+		getCurrentWKB : getCurrentWKB
 	};
 }();
