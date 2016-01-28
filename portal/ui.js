@@ -29,8 +29,6 @@ var flash = require('connect-flash');
 var icon_paths = [path.resolve(__dirname + '/../public/icons')];
 var htmlToPdf = require('html-to-pdf');
 
-var growl = require('growl')
-
 function setupUI(settings) {
 
 	var iconCache = {};
@@ -81,7 +79,7 @@ function setupUI(settings) {
 			res.redirect("/mconnect");
 		}).otherwise(function(err) {
 			util.log('[portal] Error occured > ' + err);
-			req.flash('message', err)
+			req.flash('message', err);
 			res.redirect("/");
 		})
 	})
@@ -130,10 +128,10 @@ function setupUI(settings) {
 			wkb.execute(json).then(function(result) {
 				util.log('[portal] workbenches executed successfully');
 				/*var arr = [];
-				for (elem in obj['data']) {
-					arr.push(obj['data'][elem]);
-				}
-				res.send(arr)*/
+				 for (elem in obj['data']) {
+				 arr.push(obj['data'][elem]);
+				 }
+				 res.send(arr)*/
 				res.send(200, result);
 			}).otherwise(function(err) {
 				util.log('[portal] Error occured > ' + err);
@@ -157,7 +155,11 @@ function setupUI(settings) {
 
 	app.get("/bizviz", function(req, res) {
 		if (req.session.password) {
-			res.render('bizviz.html');
+			if (req.session.wkb_name) {
+				res.render('bizviz.html');
+			} else {
+				res.redirect('/mconnect');
+			}
 		} else {
 			res.redirect('/');
 		}
