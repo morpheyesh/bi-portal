@@ -53,6 +53,10 @@ PORTAL.nodes = function() {
 		nodes.push(n);
 	}
 	
+	function getNodes() {
+		return nodes;
+	}
+	
 	function getExportNodes(wkbname) {
 		var connectors = [];
 		for (var i = 0; i < sources.length; i++) {
@@ -99,6 +103,7 @@ PORTAL.nodes = function() {
 	return {
 		registerType : registerType,
 		getType : getType,
+		getNodes : getNodes,
 		add : addNode,
 		addSource : addSource,
 		getSources : getSources,

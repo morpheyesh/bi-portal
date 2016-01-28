@@ -21,7 +21,27 @@ var PORTAL = function() {
 		var activeWorkspace = 0;
 
 		$("#connector_submit").click(function() {
+
+			var isValid = true;
+			$('#dbname,#host,#username,#password').each(function() {
+				if ($.trim($(this).val()) == '') {
+					isValid = false;
+					$(this).css({
+						"border" : "1px solid red",
+						"background" : "#FFCECE"
+					});
+				} else {
+					$(this).css({
+						"border" : "",
+						"background" : ""
+					});
+				}
+			});
+			if (isValid == false)
+				e.preventDefault();
+
 			$("#myModalHorizontal").modal('hide');
+
 			var json = {};
 			json["connector"] = $("#connector").val();
 			json["dbname"] = $("#dbname").val();
@@ -55,6 +75,24 @@ var PORTAL = function() {
 		});
 
 		$("#wkb_save").click(function() {
+			var isValid = true;
+			$('#wkbname').each(function() {
+				if ($.trim($(this).val()) == '') {
+					isValid = false;
+					$(this).css({
+						"border" : "1px solid red",
+						"background" : "#FFCECE"
+					});
+				} else {
+					$(this).css({
+						"border" : "",
+						"background" : ""
+					});
+				}
+			});
+			if (isValid == false)
+				e.preventDefault();
+
 			$("#myModalNorm").modal('hide');
 			nn = PORTAL.nodes.getExportNodes($("#wkbname").val());
 			$.ajax({
@@ -75,6 +113,14 @@ var PORTAL = function() {
 				window.location.replace("/bizviz");
 			} else {
 				PORTAL.notify("<strong>Error</strong>: Please save mconnect structure", "danger");
+			}
+		});
+
+		$("#savewkb").click(function() {
+			if (PORTAL.nodes.getNodes().length == 0) {
+				PORTAL.notify("<strong>Error</strong>: Please drag & drop your tables on left sidebar", "danger");
+			} else {
+				$('#myModalNorm').modal('show');
 			}
 		});
 
@@ -124,7 +170,7 @@ var PORTAL = function() {
 			$('#chart').append(content);
 			PORTAL.plumb.plumby(nn, content);
 
-		}
+		}		
 
 	});
 
