@@ -56,18 +56,26 @@ var PORTAL = function() {
 
 		$("#wkb_save").click(function() {
 			$("#myModalNorm").modal('hide');
-			nn = PORTAL.nodes.getExportNodes($("#wkbname").val());			
-            $.ajax({
+			nn = PORTAL.nodes.getExportNodes($("#wkbname").val());
+			$.ajax({
 				url : "/workbenches/content",
 				type : "POST",
 				data : JSON.stringify(nn),
 				contentType : "application/json",
 			}).done(function(data, textStatus, xhr) {
-				PORTAL.notify("Successfully stored workbench", "success");		
-
+				PORTAL.notify("Successfully stored workbench", "success");
+				PORTAL.nodes.registerWKB($("#wkbname").val());
 			}).fail(function(xhr, textStatus, err) {
 				PORTAL.notify("<strong>Error</strong>: " + xhr.responseText, "danger");
 			});
+		});
+
+		$("#bizvizpage").click(function() {
+			if (PORTAL.nodes.getCurrentWKB()) {
+				window.location.replace("/bizviz");
+			} else {
+				PORTAL.notify("<strong>Error</strong>: Please save mconnect structure", "danger");
+			}
 		});
 
 		$("#chart").droppable({
@@ -96,7 +104,7 @@ var PORTAL = function() {
 					'top' : ui.offset.top,
 					'left' : ui.offset.left
 				};
-				
+
 				PORTAL.nodes.add(nn);
 				drawTable(nn, alignment);
 
