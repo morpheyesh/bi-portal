@@ -16,40 +16,19 @@
 
 var PORTAL = function() {
 
-	function loadFlows() {
-		// $.getJSON("flows",function(nodes) {
-		//console.log(nodes);
-		//var nodes = [{"name":"table1", "type":"Schema"},{"name":"table2", "type":"Schema"}];
-		//PORTAL.nodes.import(nodes);
-		/* var sample = [
-		{name: 'table1', schemas: ["schema1", "schema2", "schema3", "schema4"]},
-		{name: 'table2', schemas: ["schema1", "schema2", "schema3", "schema4"]},
-		{name: 'table3', schemas: ["schema1", "schema2", "schema3", "schema4"]},
-		{name: 'table4', schemas: ["schema1", "schema2", "schema3", "schema4"]},
-		{name: 'table5', schemas: ["schema1", "schema2", "schema3", "schema4"]},
-		{name: 'table6', schemas: ["schema1", "schema2", "schema3", "schema4"]}
-		]
-		PORTAL.nodes.registerType(sample);
-		$(".palette-scroll").show();*/
-		//PORTAL.view.dirty(false);
-		//PORTAL.view.redraw();
-		//});
-	}
-
 	$(function() {
 		var space_width = 5000, space_height = 5000, lineCurveScale = 0.75, scaleFactor = 1, node_width = 100, node_height = 200;
 		var activeWorkspace = 0;
 
 		$("#connector_submit").click(function() {
 			$("#myModalHorizontal").modal('hide');
-			//PORTAL.notify("Saved nodes","success");
 			var json = {};
 			json["connector"] = $("#connector").val();
 			json["dbname"] = $("#dbname").val();
 			json["host"] = $("#host").val();
 			json["username"] = $("#username").val();
 			json["password"] = $("#password").val();
-			
+
 			$.ajax({
 				url : "/connectors",
 				type : "POST",
@@ -57,7 +36,16 @@ var PORTAL = function() {
 				contentType : "application/json",
 			}).done(function(data, textStatus, xhr) {
 				PORTAL.notify("Successfully load all schemas", "success");
-				PORTAL.nodes.registerType(data);
+				var ss = {
+					id : (1 + Math.random() * 4294967295).toString(16),
+					source : json.connector,
+					dbname : json.dbname,
+					host : json.host,
+					username : json.username,
+					password : json.password,
+				};
+				PORTAL.nodes.addSource(ss);
+				PORTAL.nodes.registerType(data, ss.id);
 				$(".palette-scroll").show();
 				$(".palette-spinner").hide();
 
@@ -65,10 +53,21 @@ var PORTAL = function() {
 				PORTAL.notify("<strong>Error</strong>: " + xhr.responseText, "error");
 			});
 		});
-		
+
 		$("#wkb_save").click(function() {
 			$("#myModalNorm").modal('hide');
-			
+			nn = PORTAL.nodes.getExportNodes($("#wkbname").val());			
+            $.ajax({
+				url : "/workbenches/content",
+				type : "POST",
+				data : JSON.stringify(nn),
+				contentType : "application/json",
+			}).done(function(data, textStatus, xhr) {
+				PORTAL.notify("Successfully stored workbench", "success");		
+
+			}).fail(function(xhr, textStatus, err) {
+				PORTAL.notify("<strong>Error</strong>: " + xhr.responseText, "danger");
+			});
 		});
 
 		$("#chart").droppable({
@@ -89,7 +88,7 @@ var PORTAL = function() {
 					w : node_width,
 					z : activeWorkspace
 				};
-                $("#chart_disable").hide();
+				$("#chart_disable").hide();
 				nn.name = selected_tool;
 				nn._def = PORTAL.nodes.getType(nn.name);
 
@@ -97,6 +96,8 @@ var PORTAL = function() {
 					'top' : ui.offset.top,
 					'left' : ui.offset.left
 				};
+				
+				PORTAL.nodes.add(nn);
 				drawTable(nn, alignment);
 
 			}
@@ -105,8 +106,7 @@ var PORTAL = function() {
 		function drawTable(nn, alignment) {
 
 			var content = '<div class="window ' + nn._def.name + '" >';
-			console.log(nn._def.schemas[0]);
-             content += '<div class="button_container">' + '<div class="window_head">' + nn._def.name + '</div>' + '</div>';
+			content += '<div class="button_container">' + '<div class="window_head">' + nn._def.name + '</div>' + '</div>';
 			$.each(nn._def.schemas, function(key, value) {
 				content += '<div class="button_container">' + '<div class="button_add ' + nn._def.name + '_' + value + '">' + value + '</div>' + '</div>';
 			});
@@ -116,10 +116,8 @@ var PORTAL = function() {
 			$('#chart').append(content);
 			PORTAL.plumb.plumby(nn, content);
 
-		}	
-		 
+		}
 
-		//loadFlows();
 	});
 
 	return {

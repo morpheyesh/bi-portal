@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html> <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
+﻿<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="en">
@@ -34,9 +35,8 @@
         <![endif]-->
         <style>
             #contextMenu {
-                display: none;
-                left: 100% !important;
-                top: 5% !important;
+                display: none;#left: 100% !important;
+                #top: 5% !important;
                 position: absolute;
                 z-index: 99999;
             }
@@ -49,7 +49,7 @@
         <div id="wrap" >
             <!-- HEADER SECTION -->
             <div id="top">
-                <nav class="navbar navbar-inverse navbar-fixed-top " style="padding-top: 10px;">
+                <nav class="navbar navbar-inverse navbar-fixed-top " style="padding-top: 15px;">
                     <a data-original-title="Show/Hide Menu" data-placement="bottom" data-tooltip="tooltip" class="accordion-toggle btn btn-primary btn-sm visible-xs" data-toggle="collapse" href="#menu" id="menu-toggle"> <i class="icon-align-justify"></i> </a>
                     <!-- LOGO SECTION -->
                     <header class="navbar-header">
@@ -57,19 +57,19 @@
                     </header>
                     <!-- END LOGO SECTION -->
                     <ul class="nav navbar-top-links navbar-right">
-                        <li class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="pull-left addrs-pro">Welcome back Arjun!</span> <!--<img class="img-circle" width="30" src="assets/img/user.gif"  alt="">--><i class="fa fa-circle pro-cirle"></i>&nbsp; <i class="fa fa-sort-desc pull-right pro-arws"></i> </a>
+                        <li class="nav-logout"><a href="login.html"><span class="fa fa-sign-out"></span> Logout </a></li>
+                        <!--<li class="dropdown">
                             <ul class="dropdown-menu dropdown-user">
-                                <!--<li>
+                                <li>
                                 <a href="#"><i class="icon-user"></i> User Profile </a>
                                 </li>
                                 <li>
                                 <a href="#"><i class="icon-gear"></i> Settings </a>
                                 </li>
-                                <li class="divider"></li>-->
+                                <li class="divider"></li>
                                 <li>
                                     <a href="login.html"><i class="icon-signout"></i> Logout </a>
-                                </li>
+                                </li>-->
                             </ul>
                         </li>
                     </ul>
@@ -80,9 +80,11 @@
                     <div class="container1">
                         <div class="top-warps">
                             <div class="col-sm-2">
-                                <a href="javascript:;" id="btnAddPage" class="btn btn-success">Add data</a>
-                                <div id="contextMenu" class="dropdown clearfix">
-                                    <ul class="dropdown-menu" style="display:block;position:static;margin-bottom:5px;">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="fa fa-plus-circle"></span>&nbsp;Add data
+                                    </button>
+                                    <ul class="dropdown-menu">
                                         <li>
                                             <a tabindex="-1" href="#" data-toggle="modal" data-target="#myModalHorizontal"><span><img src="images/dash-1.png" alt=""></span>My SQL</a>
                                         </li>
@@ -99,17 +101,17 @@
                                 </div>
                             </div>
                             <div class="col-sm-10">
-                                <!--<div class="scroller scroller-left">
-                                <i class="fa fa-chevron-left"></i>
+                                <div class="scroller scroller-left">
+                                    <i class="fa fa-chevron-left"></i>
                                 </div>
                                 <div class="scroller scroller-right">
-                                <i class="fa fa-chevron-right"></i>
-                                </div>-->
+                                    <i class="fa fa-chevron-right"></i>
+                                </div>
                                 <div class="wrapper">
                                     <ul id="pageTab" class="nav nav-tabs list">
-                                        <li class="active">
+                                        <!--<li class="active">
                                             <a href="#page1" data-toggle="tab">New Connect</a>
-                                        </li>
+                                        </li>-->
                                     </ul>
                                 </div>
                             </div>
@@ -125,11 +127,11 @@
                                                 <a href="#" class="list-group-item text-center" data-toggle="modal" data-target="#myModalNorm"> <h4 class="fa fa-floppy-o"></h4> Save </a>
                                                 <a href="#" class="list-group-item text-center"> <h4 class="fa fa-line-chart"></h4> Biz Viz </a>
 
-                                                <h5>SCHEMAS</h5>
-                                                <span class="label label-info" align="center" style="margin-left: 10px;" id="table_disable">Load data from your source</span>
-                                                    <table width="88%" border="0" cellspacing="0" cellpadding="0" align="center" id="palette-container">
-                                                       
-                                                    </table>                                                    
+                                                <h5>TABLES</h5>
+                                                <span class="label label-primary" align="center" style="margin-left: 10px;" id="table_disable">Load data from your source</span>
+                                                <table width="88%" border="0" cellspacing="0" cellpadding="0" align="center" id="palette-container">
+
+                                                </table>
                                             </div>
                                         </div>
                                         <div class="col-lg-10 col-md-9 col-sm-9 col-xs-7 bhoechie-tab">
@@ -137,12 +139,31 @@
                                             <div class="bhoechie-tab-content active">
                                                 <div align="center">
                                                     <div class="col-xs-12">
-                                                        <div class="form-group" id="chart">
+                                                        <div class="form-group" id="chart">                                                           
                                                             <div id="chart_disable">
-                                                                <label>Drag & Drop files
+                                                                <label>Drag & Drop tables
                                                                     <br>
                                                                     OR</label>
-                                                                <input type="file" id="input03" multiple="multiple">
+                                                                <br/>
+                                                                <div class="btn-group">
+                                                                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                        <span class="fa fa-plus-circle"></span>&nbsp;Add data
+                                                                    </button>
+                                                                    <ul class="dropdown-menu">
+                                                                        <li>
+                                                                            <a tabindex="-1" href="#" data-toggle="modal" data-target="#myModalHorizontal"><span><img src="images/dash-1.png" alt=""></span>My SQL</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a tabindex="-1" href="#"><span><img src="images/dash-2.png" alt=""></span>Windows</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a tabindex="-1" href="#"><span><img src="images/dash-3.png" alt=""></span>Excel (.xls)</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a tabindex="-1" href="#"><span><img src="images/dash-4.png" alt=""></span>Contact (.csv)</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -166,24 +187,7 @@
                     <div class="">
                         <h1><i class="fa fa-exchange"></i>&nbsp; My Connects</h1>
                     </div>
-                </div>
-                <style>
-                    /* checked mark aspect */
-                    input[type="checkbox"]:not(:checked) +
-                    label:after, input[type="checkbox"]:checked + label:after {
-                        content: '✔';
-                        position: absolute;
-                        top: 0;
-                        left: 7px;
-                        font-size: 28px;
-                        color: #716096;
-                        transition: all .2s;
-                        -webkit-transition: all .2s;
-                        -moz-transition: all .2s;
-                        -ms-transition: all .2s;
-                        -o-transition: all .2s;
-                    }
-                </style>
+                </div>               
                 <div class="checkbox ">
                     <input type="checkbox" id="remember" />
                     <label for="remember">Connect 1</label>
@@ -207,6 +211,7 @@
         <div id="notifications"></div>
         <script src="js/jquery-2.2.0.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/dashboard.js"></script>
         <script type="text/javascript" src="js/bootstrap-filestyle.js"></script>
 
         <script src="assets/js/jquery-ui-1.9.2-min.js"></script>
@@ -222,108 +227,6 @@
         <script src="portal/ui/plumb.js"></script>
         <script src="portal/ui/sidebar.js"></script>
         <script src="assets/js/d3.v3.min.js"></script>
-        <script>
-			var hidWidth;
-			var scrollBarWidths = 40;
-
-			var widthOfList = function() {
-				var itemsWidth = 0;
-				$('.list li').each(function() {
-					var itemWidth = $(this).outerWidth();
-					itemsWidth += itemWidth;
-				});
-				return itemsWidth;
-			};
-
-			var widthOfHidden = function() {
-				return (($('.wrapper').outerWidth()) - widthOfList() - getLeftPosi()) - scrollBarWidths;
-			};
-
-			var getLeftPosi = function() {
-				return $('.list').position().left;
-			};
-
-			var reAdjust = function() {
-				if (($('.wrapper').outerWidth()) < widthOfList()) {
-					$('.scroller-right').show();
-				} else {
-					$('.scroller-right').hide();
-				}
-
-				if (getLeftPosi() < 0) {
-					$('.scroller-left').show();
-				} else {
-					$('.item').animate({
-						left : "-=" + getLeftPosi() + "px"
-					}, 'slow');
-					$('.scroller-left').hide();
-				}
-			}
-			reAdjust();
-
-			$(window).on('resize', function(e) {
-				reAdjust();
-			});
-
-			$('.scroller-right').click(function() {
-				$('.scroller-left').fadeIn('slow');
-				$('.scroller-right').fadeOut('slow');
-
-				$('.list').animate({
-					left : "+=" + widthOfHidden() + "px"
-				}, 'slow', function() {
-
-				});
-			});
-
-			$('.scroller-left').click(function() {
-
-				$('.scroller-right').fadeIn('slow');
-				$('.scroller-left').fadeOut('slow');
-
-				$('.list').animate({
-					left : "-=" + getLeftPosi() + "px"
-				}, 'slow', function() {
-
-				});
-			});
-
-			/*$(document).ready(function() {
-			 $("div.bhoechie-tab-menu>div.list-group>a").click(function(e) {
-			 e.preventDefault();
-			 $(this).siblings('a.active').removeClass("active");
-			 $(this).addClass("active");
-			 var index = $(this).index();
-			 $("div.bhoechie-tab>div.bhoechie-tab-content").removeClass("active");
-			 $("div.bhoechie-tab>div.bhoechie-tab-content").eq(index).addClass("active");
-			 });
-			 });*/
-
-			$('#input03').filestyle({
-				input : false,
-				buttonName : 'btn-primary'
-			});
-
-        </script>
-
-        <script>
-			$(function() {
-
-				var $contextMenu = $("#contextMenu");
-				//$("body").on("contextmenu", ".list-group a", function(e) {
-				$("#btnAddPage").click(function(e) {
-					$contextMenu.css({
-						display : "block",
-						left : e.pageX,
-						top : e.pageY
-					});
-					return false;
-				});
-				$("body").click(function(e) {
-					$contextMenu.hide();
-				});
-			});
-        </script>
 
         <!-- END PAGE LEVEL SCRIPTS -->
 
@@ -413,7 +316,7 @@
                                 for="inputEmail3">Name</label>
                                 <div class="col-sm-8">
                                     <input type="email" class="form-control"
-                                    id="inputEmail3" placeholder="Name"/>
+                                    id="wkbname" placeholder="Name"/>
                                 </div>
                             </div>
                             <div class="form-group">

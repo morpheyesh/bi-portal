@@ -65,15 +65,16 @@ PORTAL.plumb = function() {
 				dropOptions : {
 					drop : function(e, ui) {
 						var connectionList = jsPlumb.getConnections(this);
-						console.log(connectionList);
+						//console.log(connectionList);
 					}
 				}
 			};
 
-			 $.each(nn._def.schemas, function( key, value ) {
-				console.log("."+nn._def.name+"_"+value);
+			 $.each(nn._def.schemas, function( key, value ) {			 	
 				var parentnode = $("."+nn._def.name+"_"+value)[0];
 				jsPlumb.addEndpoint(parentnode, anEndpointDestination);
+				var endpoints = jsPlumb.getEndpoints(parentnode);
+				//console.log(endpoints[0].elementId);
 			});
 			
          refresh_all();
