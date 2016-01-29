@@ -76,11 +76,13 @@ function setupUI(settings) {
 			util.log('[portal] User login successfully');
 			req.session.email = json.email;
 			req.session.password = json.password;
-			res.redirect("/mconnect");
+			//res.redirect("/mconnect");
+			res.send(200);
 		}).otherwise(function(err) {
 			util.log('[portal] Error occured > ' + err);
-			req.flash('message', err);
-			res.redirect("/");
+			//req.flash('message', err);
+			//res.redirect("/");
+			res.send(500, err);
 		})
 	})
 
@@ -92,11 +94,13 @@ function setupUI(settings) {
 			util.log('[portal] User onboard successfully');
 			req.session.email = json.email;
 			req.session.password = json.password;
-			res.redirect("/mconnect");
+			//res.redirect("/mconnect");
+			res.send(200);
 		}).otherwise(function(err) {
 			util.log('[portal] Error occured > ' + err);
-			req.flash('message', err)
-			res.redirect("/");
+			//req.flash('message', err)
+			//res.redirect("/");
+			res.send(500, err);
 		});
 	});
 
