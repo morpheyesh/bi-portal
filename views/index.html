@@ -14,6 +14,8 @@
         <link rel="stylesheet" href="css/intlTelInput.css">
         <link rel="stylesheet" href="css/bootstrap.css" >
         <link rel="stylesheet" href="css/megam.css" >
+        <link rel='stylesheet' href='css/nprogress.css'/>
+        <link rel="stylesheet" href="dashboard/css/megam.css" />
         <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     </head>
     <body>
@@ -93,23 +95,23 @@
                                                 </div>
                                                 <% } %>
                                                 <div class="col-lg-8 col-lg-offset-2">
-                                                    <form id="login-form" action="/signin" method="post" role="form" style="display: block;">
+                                                    <div class="form-horizontal" id="login-form">
                                                         <div class="form-group">
-                                                            <input type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Email" value="">
+                                                            <input type="text" name="email" id="semail" tabindex="1" class="form-control" placeholder="Email" value="">
                                                         </div>
                                                         <div class="form-group">
-                                                            <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                                                            <input type="password" name="password" id="spassword" tabindex="2" class="form-control" placeholder="Password">
                                                         </div>
                                                         <div class="form-group">
-                                                            <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login btn-alter" value="Login">
+                                                            <input type="button" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login btn-alter" value="Login">
 
                                                         </div>
                                                         <div class="form-group">
                                                             <a href="#" tabindex="5" class="forgot-password">Forgot Password?</a>
 
                                                         </div>
-                                                    </form>
-                                                    <form id="register-form" action="/signup" method="post" style="display: none;">
+                                                    </div>
+                                                    <div class="form-horizontal" id="register-form" style="display: none;">
                                                         <div class="form-group">
                                                             <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Name" value="">
                                                         </div>
@@ -126,7 +128,7 @@
                                                             <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register btn-alter" value="Register Now">
 
                                                         </div>
-                                                    </form>
+                                                    </div>
 
                                                 </div>
                                             </div>
@@ -147,9 +149,13 @@
                 </div>
             </div>
         </div>
+        <div id="notifications"></div>
         <!-- script references -->
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+        <script src="js/jquery-2.2.0.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <script src="js/nprogress.js"></script>
+        <script src="portal/signin.js"></script>
+        <script src="portal/ui/notifications.js"></script>
         <script>
 			$(function() {
 

@@ -29,8 +29,6 @@ var flash = require('connect-flash');
 var icon_paths = [path.resolve(__dirname + '/../public/icons')];
 var htmlToPdf = require('html-to-pdf');
 
-var growl = require('growl')
-
 function setupUI(settings) {
 
 	var iconCache = {};
@@ -78,11 +76,13 @@ function setupUI(settings) {
 			util.log('[portal] User login successfully');
 			req.session.email = json.email;
 			req.session.password = json.password;
-			res.redirect("/mconnect");
+			//res.redirect("/mconnect");
+			res.send(200);
 		}).otherwise(function(err) {
 			util.log('[portal] Error occured > ' + err);
-			req.flash('message', err)
-			res.redirect("/");
+			//req.flash('message', err);
+			//res.redirect("/");
+			res.send(500, err);
 		})
 	})
 
@@ -94,11 +94,13 @@ function setupUI(settings) {
 			util.log('[portal] User onboard successfully');
 			req.session.email = json.email;
 			req.session.password = json.password;
-			res.redirect("/mconnect");
+			//res.redirect("/mconnect");
+			res.send(200);
 		}).otherwise(function(err) {
 			util.log('[portal] Error occured > ' + err);
-			req.flash('message', err)
-			res.redirect("/");
+			//req.flash('message', err)
+			//res.redirect("/");
+			res.send(500, err);
 		});
 	});
 
@@ -141,16 +143,10 @@ function setupUI(settings) {
 
 		      ]
 		    }; */
-				util.log("yeahhhh!!!!!");
-
 
 				var arr = [];
 				var inc = 0;
 				for (elem in oo['result']) {
-					util.log("FIRST ELEMENT==========");
-					util.log(oo['result'][elem]);
-					util.log(inc);
-					util.log("=======================");
 
 				var n = oo['result'][elem].concat(qr[inc]);
 				console.log(n);
@@ -159,10 +155,9 @@ function setupUI(settings) {
 
 					inc += 1;
 				}
-        util.log(arr);
 
 				res.send(arr)
-			//	res.send(200, result);
+
 			}).otherwise(function(err) {
 				util.log('[portal] Error occured > ' + err);
 				res.send(500, err);
@@ -196,7 +191,11 @@ function setupUI(settings) {
 
 	app.get("/bizviz", function(req, res) {
 		if (req.session.password) {
-			res.render('bizviz.html');
+			if (req.session.wkb_name) {
+				res.render('bizviz.html');
+			} else {
+				res.redirect('/mconnect');
+			}
 		} else {
 			res.redirect('/');
 		}
