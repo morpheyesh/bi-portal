@@ -129,12 +129,40 @@ function setupUI(settings) {
 			util.log('[portal] User email > ' + json.email);
 			wkb.execute(json).then(function(result) {
 				util.log('[portal] workbenches executed successfully');
-				/*var arr = [];
-				for (elem in obj['data']) {
-					arr.push(obj['data'][elem]);
+
+				var oo = JSON.parse(result);
+          util.log(req.body.query.split(" "));
+    var qr = req.body.query.split(" ");
+
+		/*	var oo = {
+		      "result": [
+		      [ 4, 4, 4, 6, 1, 2, 2, 2, 2 ],
+					[ 411, 411, 411, 411, 50, 40, 40, 40, 40 ]
+
+		      ]
+		    }; */
+				util.log("yeahhhh!!!!!");
+
+
+				var arr = [];
+				var inc = 0;
+				for (elem in oo['result']) {
+					util.log("FIRST ELEMENT==========");
+					util.log(oo['result'][elem]);
+					util.log(inc);
+					util.log("=======================");
+
+				var n = oo['result'][elem].concat(qr[inc]);
+				console.log(n);
+
+					arr.push(move(n.length -1, 0, n));
+
+					inc += 1;
 				}
-				res.send(arr)*/
-				res.send(200, result);
+        util.log(arr);
+
+				res.send(arr)
+			//	res.send(200, result);
 			}).otherwise(function(err) {
 				util.log('[portal] Error occured > ' + err);
 				res.send(500, err);
@@ -146,6 +174,17 @@ function setupUI(settings) {
 		}
 
 	});
+
+	move = function (old_index, new_index, arr) {
+   if (new_index >= arr.length) {
+       var k = new_index - arr.length;
+       while ((k--) + 1) {
+           arr.push(undefined);
+       }
+   }
+   arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+   return arr; // for testing purposes
+};
 
 	app.get("/mconnect", function(req, res) {
 		if (req.session.password) {

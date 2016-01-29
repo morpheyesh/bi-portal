@@ -37,6 +37,7 @@ var PORTAL = function() {
 			var t_data = transpose(init_data);
 
 			var data = google.visualization.arrayToDataTable(t_data);
+			ndata = data;
 			//  var ndata = '';
 			// Set chart options
 			/*  var options = {
@@ -110,7 +111,8 @@ var PORTAL = function() {
 			$("#analyze").click(function() {
 				query = $("#query").val();
 				var d = getQueryData(query);
-
+        console.log("alrighty");
+				console.log(d);
 				ndata = new google.visualization.arrayToDataTable(d);
 				chartObjs[chart_selected].draw(ndata, options);
 			});
@@ -160,10 +162,12 @@ var PORTAL = function() {
 				name : PORTAL.nodes.getCurrentWKB(),
 			};
 			var dd = [];
+
 			$.ajax({
 				url : "/workbenches/execute",
 				type : "POST",
-				data : JSON.stringify(dd),
+				async: false,
+				data : JSON.stringify(nn),
 				contentType : "application/json",
 			}).done(function(data, textStatus, xhr) {
 				console.log(data);
