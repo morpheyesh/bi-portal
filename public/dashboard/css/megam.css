@@ -23,7 +23,8 @@
     #box-shadow: 2px 2px 5px #AAAAAA;
     #color: black;
     #height: 5em;
-    position: absolute;#width: 5em;
+    position: absolute;
+    #width: 5em;
 }
 
 .window:hover {
@@ -31,8 +32,9 @@
     cursor: pointer;
 }
 
-.button_add {#text-align: center;
-    border-radius: 0.5em;
+.button_add {
+    #text-align: center;
+    #border-radius: 0.5em;
     border: 1px solid;
     font-size: 12px;
     color: #000000;
@@ -43,7 +45,7 @@
 .window_head {
     background-color: #6F5F95;
     border: 1px solid;
-    border-radius: 0.5em;
+    #border-radius: 0.5em;
     font-size: 16px;
     color: #ffffff;
     padding-right: 10px;
@@ -51,7 +53,8 @@
 }
 
 .button_container {
-    margin: 3px;#background-color: #aaaaaa
+    #margin: 3px;
+    #background-color: #aaaaaa
 }
 
 .notification {

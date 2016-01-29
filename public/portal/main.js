@@ -18,8 +18,8 @@ var PORTAL = function() {
 
 	$(function() {
 		var space_width = 5000, space_height = 5000, lineCurveScale = 0.75, scaleFactor = 1, node_width = 100, node_height = 200;
-		var activeWorkspace = 0;
-
+		var activeWorkspace = 0;				
+		
 		$("#connector_submit").click(function() {
 
 			var isValid = true;
@@ -41,7 +41,7 @@ var PORTAL = function() {
 				e.preventDefault();
 
 			$("#myModalHorizontal").modal('hide');
-
+            NProgress.start();
 			var json = {};
 			json["connector"] = $("#connector").val();
 			json["dbname"] = $("#dbname").val();
@@ -55,6 +55,7 @@ var PORTAL = function() {
 				data : JSON.stringify(json),
 				contentType : "application/json",
 			}).done(function(data, textStatus, xhr) {
+				NProgress.done();
 				PORTAL.notify("Successfully load all schemas", "success");
 				var ss = {
 					id : (1 + Math.random() * 4294967295).toString(16),
@@ -70,7 +71,8 @@ var PORTAL = function() {
 				$(".palette-spinner").hide();
 
 			}).fail(function(xhr, textStatus, err) {
-				PORTAL.notify("<strong>Error</strong>: " + xhr.responseText, "error");
+				NProgress.done();
+				PORTAL.notify("<strong>Error</strong>: " + xhr.responseText, "danger");
 			});
 		});
 
@@ -94,6 +96,7 @@ var PORTAL = function() {
 				e.preventDefault();
 
 			$("#myModalNorm").modal('hide');
+			NProgress.start();
 			nn = PORTAL.nodes.getExportNodes($("#wkbname").val());
 			$.ajax({
 				url : "/workbenches/content",
@@ -101,24 +104,29 @@ var PORTAL = function() {
 				data : JSON.stringify(nn),
 				contentType : "application/json",
 			}).done(function(data, textStatus, xhr) {
+				NProgress.done();
 				PORTAL.notify("Successfully stored workbench", "success");
 				PORTAL.nodes.registerWKB($("#wkbname").val());
 			}).fail(function(xhr, textStatus, err) {
+				NProgress.done();
 				PORTAL.notify("<strong>Error</strong>: " + xhr.responseText, "danger");
 			});
 		});
 
 		$("#bizvizpage").click(function() {
+			NProgress.start();
 			if (PORTAL.nodes.getCurrentWKB()) {
+				NProgress.done();
 				window.location.replace("/bizviz");
 			} else {
-				PORTAL.notify("<strong>Error</strong>: Please save mconnect structure", "danger");
+				NProgress.done();
+				PORTAL.notify("<strong>Warning</strong>: Generate Workbench and save it first.", "warning");
 			}
 		});
 
 		$("#savewkb").click(function() {
 			if (PORTAL.nodes.getNodes().length == 0) {
-				PORTAL.notify("<strong>Error</strong>: Please drag & drop your tables on left sidebar", "danger");
+				PORTAL.notify("<strong>Warning</strong>: Nothing to save. Drag & Drop tables first", "warning");
 			} else {
 				$('#myModalNorm').modal('show');
 			}
@@ -169,7 +177,6 @@ var PORTAL = function() {
 			$(content).css(alignment);
 			$('#chart').append(content);
 			PORTAL.plumb.plumby(nn, content);
-
 		}		
 
 	});
